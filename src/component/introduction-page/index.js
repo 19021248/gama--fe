@@ -9,8 +9,13 @@ import {
 
 export default function Introduction() {
   return (
-    <div className="root">
-      <div className="top">
+    <div className="landing-page">
+      <div className="header">
+        <img
+          src="https://uet.vnu.edu.vn/wp-content/uploads/2017/02/logo2_new.png"
+          width={100}
+          height={100}
+        />
         <p className="test">HANOI UNIVERSITY OF ENGINEERING AND TECHNOLOGY</p>
         <Button
           style={{
@@ -108,12 +113,7 @@ export default function Introduction() {
           />
         </div>
       </div>
-      <div style={{ margin: 80, paddingBottom: 100 }}>
-        <a style={{ fontSize: 26 }}>
-          HANOI UNIVERSITY OF ENGINEERING AND TECHNOLOGY
-        </a>
-        <p>A PRODUCTION BY DAI DUONG DO</p>
-      </div>
+
     </div>
   );
 }
