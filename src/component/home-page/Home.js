@@ -28,7 +28,45 @@ const Home = () => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   const [choose, setChoose] = useState(1);
-
+  const Pages = [
+    {
+      key: '1',
+      icon: <HomeOutlined />,
+      label: 'Home',
+      onClick: () => setChoose(1),
+      description: '',
+    },
+    {
+      key: '2',
+      icon: <EditOutlined />,
+      label: 'Simulate',
+      onClick: () => setChoose(2),
+      description: '',
+    },
+    {
+      key: '3',
+      icon: <WechatOutlined />,
+      label: 'Chat',
+      onClick: () => {
+        history.push('/chat');
+      },
+      description: '',
+    },
+    {
+      key: '4',
+      icon: <BarChartOutlined />,
+      label: 'Chart',
+      onClick: () => setChoose(4),
+      description: '',
+    },
+    {
+      key: '5',
+      icon: <UserOutlined />,
+      label: 'Member',
+      onClick: () => setChoose(5),
+      description: '',
+    },
+  ];
   // useEffect(() => {
   //   localStorage.removeItem('tabs');
   //   const tempUser = getItem('user');
@@ -49,40 +87,7 @@ const Home = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <HomeOutlined />,
-              label: 'Home',
-              onClick: () => setChoose(1),
-            },
-            {
-              key: '2',
-              icon: <EditOutlined />,
-              label: 'Simulate',
-              onClick: () => setChoose(2),
-            },
-            {
-              key: '3',
-              icon: <WechatOutlined />,
-              label: 'Chat',
-              onClick: () => {
-                history.push('/chat');
-              },
-            },
-            {
-              key: '4',
-              icon: <BarChartOutlined />,
-              label: 'Chart',
-              onClick: () => setChoose(4),
-            },
-            {
-              key: '5',
-              icon: <UserOutlined />,
-              label: 'Member',
-              onClick: () => setChoose(5),
-            },
-          ]}
+          items={Pages}
         />
       </Sider>
       <Layout className="site-layout">
@@ -120,7 +125,7 @@ const Home = () => {
           }}
         >
           {choose === 1 ? (
-            <HomeContent />
+            <HomeContent setChoose={setChoose} pages={Pages} />
           ) : choose === 2 ? (
             <SimulateHome setChoose={setChoose} />
           ) : choose === 3 ? (
