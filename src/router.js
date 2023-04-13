@@ -3,7 +3,7 @@ import { Register } from './component/auth/register.component';
 import Chat from './component/Chat-Page';
 import Edit from './component/edit-page/edit.component';
 import Home from './component/home-page/Home';
-import Introduction from './component/introduction-page';
+import LandingPage from './component/landing-page/LandingPage';
 import SimulationHistoryPage from './component/simulation-history-page';
 import Simulation from './component/simulation-page/simulation.component';
 
@@ -11,7 +11,7 @@ export const router = [
   {
     name: 'introduction',
     path: '/',
-    component: Introduction,
+    component: LandingPage,
   },
   {
     name: 'home',

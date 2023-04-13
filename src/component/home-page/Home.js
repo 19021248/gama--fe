@@ -41,7 +41,7 @@ const Home = () => {
       icon: <EditOutlined />,
       label: 'Simulate',
       onClick: () => setChoose(2),
-      description: '',
+      description: 'Giả lập dữ liệu Gama',
     },
     {
       key: '3',
@@ -50,21 +50,21 @@ const Home = () => {
       onClick: () => {
         history.push('/chat');
       },
-      description: '',
+      description: 'Tham gia trò chuyện trực tuyến',
     },
     {
       key: '4',
       icon: <BarChartOutlined />,
       label: 'Chart',
       onClick: () => setChoose(4),
-      description: '',
+      description: 'Xem kết quả',
     },
     {
       key: '5',
       icon: <UserOutlined />,
       label: 'Member',
       onClick: () => setChoose(5),
-      description: '',
+      description: 'Sửa đổi thông tin cá nhân',
     },
   ];
   // useEffect(() => {
