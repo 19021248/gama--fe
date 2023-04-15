@@ -13,7 +13,11 @@ import addNotification, { NOTIFICATION_TYPE } from '../notification';
 import { setItem } from '../../utils';
 import { useState } from 'react';
 
-export const LogIn = () => {
+export const LogIn = ({
+  popup = false,
+  onClose = () => {},
+  onSwitch = () => {},
+}) => {
   const [isLoading, setLoading] = useState(false);
   const history = useHistory();
   const onFinish = (values) => {
@@ -23,7 +27,11 @@ export const LogIn = () => {
         const data = res.data;
         localStorage.setItem('token', data.token);
         localStorage.setItem('introduce', true);
-        history.push('/home');
+        if (popup) {
+          onClose();
+        } else {
+          history.push('/home');
+        }
         setItem('user', data.user);
       })
       .catch(function (err) {
@@ -35,7 +43,8 @@ export const LogIn = () => {
   };
   return (
     <>
-      <div className="container">
+      <div className={`container ${popup && 'pop-up'}`}>
+        <div className="container-bg" onClick={onClose}></div>
         <div className="form-container">
           <Form
             name="basic"
@@ -108,9 +117,15 @@ export const LogIn = () => {
 
               <Form.Item wrapperCol={{ span: 24 }}>
                 Not have account yet?
-                <Button disabled={isLoading} type="link" href="/register">
-                  Regist here
-                </Button>
+                {popup ? (
+                  <Button disabled={isLoading} type="link" onClick={onSwitch}>
+                    Register here
+                  </Button>
+                ) : (
+                  <Button disabled={isLoading} type="link" href="/register">
+                    Register here
+                  </Button>
+                )}
               </Form.Item>
             </Space>
           </Form>

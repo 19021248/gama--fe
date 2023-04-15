@@ -1,10 +1,12 @@
 import React from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import Header from '../../component/header/Header';
 
-export default function SimulateHome({ setChoose }) {
+export default function HelpPage({ setChoose }) {
   return (
     <div>
+      <Header />
       <h1 style={{ textAlign: 'center', fontSize: 40, marginBottom: 50 }}>
         MÔT SỐ LƯU Ý
       </h1>

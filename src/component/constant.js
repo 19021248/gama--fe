@@ -73,6 +73,7 @@ export const imageUrls = [
   'https://gama-laravel.s3.ap-southeast-1.amazonaws.com/snapshots/20_myDisplay2-52.png',
   'https://gama-laravel.s3.ap-southeast-1.amazonaws.com/snapshots/20_myDisplay2-6.png',
   'https://gama-laravel.s3.ap-southeast-1.amazonaws.com/snapshots/20_myDisplay2-8.png',
+  
 ];
 
 export const imgUrls = [

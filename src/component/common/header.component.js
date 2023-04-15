@@ -17,7 +17,6 @@ import {
   Modal,
   Space,
 } from 'antd';
-import { Header } from 'antd/lib/layout/layout';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -27,6 +26,7 @@ import addNotification, { NOTIFICATION_TYPE } from '../notification';
 import { AccountModal } from './account.component';
 import { ResetModal } from './reset.component';
 import './style.scss';
+import Header from '../header/Header';
 
 const HeaderComp = (props) => {
   const { isLoading, setLoading } = props;
@@ -98,40 +98,7 @@ const HeaderComp = (props) => {
           onUpdate={onUpdate}
         />
       )}
-      <Header className="header" style={{ padding: 0, display: 'flex' }}>
-        <Col span={22}>
-          <a
-            href="/edit"
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              height: '100%',
-            }}
-          >
-            <img
-              src="https://uet.vnu.edu.vn/wp-content/uploads/2017/02/logo2_new.png"
-              alt="gamma-icon"
-              width={50}
-              height={50}
-              style={{ marginLeft: 30 }}
-            />
-            <span style={{ color: '#fff', fontSize: 30, marginLeft: 10 }}>
-              ASF HN
-            </span>
-          </a>
-        </Col>
-
-        <Col span={2}>
-          <Dropdown overlay={menu}>
-            <Avatar
-              size={35}
-              style={{ position: 'absolute', right: 70, top: 15 }}
-              icon={<UserOutlined />}
-            />
-          </Dropdown>
-        </Col>
-      </Header>
+      <Header />
     </>
   );
 };

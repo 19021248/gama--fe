@@ -297,8 +297,8 @@ const Simulation = (props) => {
                                   <img
                                     src={(imageUrl[pane.name] || [])[index]}
                                     alt="test"
-                                    width={500}
-                                    height={500}
+                                    width={1100}
+                                    height={800}
                                   />
                                 </TransformComponent>
                                 <div className="tools">

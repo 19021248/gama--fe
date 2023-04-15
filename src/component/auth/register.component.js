@@ -13,7 +13,11 @@ import { useHistory } from 'react-router-dom';
 import { regist } from '../../service/api';
 import { useState } from 'react';
 
-export const Register = () => {
+export const Register = ({
+  popup = false,
+  onClose = () => {},
+  onSwitch = () => {},
+}) => {
   const [isLoading, setLoading] = useState(false);
   const history = useHistory();
   const onFinish = (values) => {
@@ -24,7 +28,8 @@ export const Register = () => {
           'Create account successfully',
           NOTIFICATION_TYPE.SUCCESS,
         );
-        history.push('/login');
+        if (popup) onSwitch();
+        else history.push('/login');
       })
       .catch((err) => {
         if (err.response)
@@ -37,6 +42,8 @@ export const Register = () => {
     <>
       <div className="container">
         <div className="form-container">
+          <div className="container-bg" onClick={onClose}></div>
+
           <Form
             name="basic"
             labelCol={{ span: 8 }}
@@ -136,9 +143,15 @@ export const Register = () => {
 
               <Form.Item wrapperCol={{ span: 24 }}>
                 Already have account?
-                <Button type="link" href="/login">
-                  Log in here
-                </Button>
+                {popup ? (
+                  <Button disabled={isLoading} type="link" onClick={onSwitch}>
+                    Log in here
+                  </Button>
+                ) : (
+                  <Button disabled={isLoading} type="link" href="/login">
+                    Log in here
+                  </Button>
+                )}
               </Form.Item>
             </Space>
           </Form>

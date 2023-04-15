@@ -1,6 +1,5 @@
 .landing-page {
   width: 100vw;
-  padding-top: 110px;
   .ld-btn {
     display: inline-block;
     font-size: 24px;
@@ -26,6 +25,7 @@
     padding: 10px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     top: 0;
     z-index: 1;
     background-color: white;
@@ -37,6 +37,7 @@
     .test {
       font-size: 2.5em;
       font-weight: 500;
+      margin-bottom: 0;
     }
   }
 
