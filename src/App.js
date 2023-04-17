@@ -1,4 +1,4 @@
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { router } from './router';
 import 'antd/dist/antd.min.css';
 import 'react-notifications-component/dist/theme.css';
@@ -11,9 +11,11 @@ function App(props) {
     <>
       <BrowserRouter>
         <Spin spinning={isLoading}>
-          {router.map((item) => (
-            <Route exact path={item.path} component={item.component} />
-          ))}
+          <Switch>
+            {router.map((item) => (
+              <Route exact path={item.path} component={item.component} />
+            ))}
+          </Switch>
         </Spin>
       </BrowserRouter>
     </>

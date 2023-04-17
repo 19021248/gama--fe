@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../../component/header/Header';
 
-export default function ChartPage() {
+export default function ChartOverviewPage() {
   return (
     <div
       style={{
@@ -16,18 +16,22 @@ export default function ChartPage() {
       <img
         src="https://i.imgur.com/2m61koy.jpg"
         style={{ width: '80%', alignSelf: 'center', marginLeft: '10%' }}
+        alt=''
       />
       <img
         src="https://i.imgur.com/lWfaVcV.jpg"
         style={{ width: '80%', alignSelf: 'center', marginLeft: '10%' }}
+        alt=''
       />
       <img
         src="https://i.imgur.com/QBk3gP4.jpg"
         style={{ width: '80%', alignSelf: 'center', marginLeft: '10%' }}
+        alt=''
       />
       <img
         src="https://i.imgur.com/l3npGrr.jpg"
         style={{ width: '80%', alignSelf: 'center', marginLeft: '10%' }}
+        alt=''
       />
     </div>
   );

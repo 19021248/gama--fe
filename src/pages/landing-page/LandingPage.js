@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
-
 import PageFooter from '../../component/edit-page/page-footer/PageFooter';
 import { LogIn } from '../../component/auth/log-in.component';
 import { getItem } from '../../utils';
 import Header from '../../component/header/Header';
+import { Register } from '../../component/auth/register.component';
 const usedTech = [
   {
     name: 'aws',
@@ -85,7 +85,7 @@ export default function LandingPage() {
               className="ld-btn"
               type="link"
               onClick={() => {
-                if (loggedIn) history.push('help');
+                if (loggedIn) history.push('simulation/help');
                 else setShowLogin(true);
               }}
             >
@@ -150,9 +150,18 @@ export default function LandingPage() {
             DATA
           </h1>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src="https://dim.mcusercontent.com/cs/3dde047e26aba42bc27abe601/images/400906a6-cbc3-5a8f-312c-647ab0a585cc.png?w=397&dpr=1" />
-            <img src="https://dim.mcusercontent.com/cs/3dde047e26aba42bc27abe601/images/f6a33d8b-2fbb-925e-ed84-4223d41b8e45.png?w=397&dpr=1" />
-            <img src="https://dim.mcusercontent.com/cs/3dde047e26aba42bc27abe601/images/59ad6448-bbeb-e72e-5be6-a35f1c84e6ea.png?w=397&dpr=1" />
+            <img
+              src="https://dim.mcusercontent.com/cs/3dde047e26aba42bc27abe601/images/400906a6-cbc3-5a8f-312c-647ab0a585cc.png?w=397&dpr=1"
+              alt=""
+            />
+            <img
+              src="https://dim.mcusercontent.com/cs/3dde047e26aba42bc27abe601/images/f6a33d8b-2fbb-925e-ed84-4223d41b8e45.png?w=397&dpr=1"
+              alt=""
+            />
+            <img
+              src="https://dim.mcusercontent.com/cs/3dde047e26aba42bc27abe601/images/59ad6448-bbeb-e72e-5be6-a35f1c84e6ea.png?w=397&dpr=1"
+              alt=""
+            />
           </div>
           <ul
             style={{
@@ -183,7 +192,7 @@ export default function LandingPage() {
         />
       )}
       {showRegistser && (
-        <LogIn
+        <Register
           popup={true}
           onClose={() => {
             setShowRegister(false);

@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
-import SimulateHome from '../../pages/help-page/HelpPage';
+import SimulateHome from '../../pages/simulation_help-page/SimulationHelpPage';
 import HeaderComponent from '../common/header.component';
 import HomeContent from './home.content';
 import ChartComponent from './chart.component';

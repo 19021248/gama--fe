@@ -1,0 +1,17 @@
+.simulation-edit-page {
+    background: url('../../../public/image/simulation.webp');
+    background-size: cover;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    .content {
+        max-width: 1000px;
+        margin: 20px auto auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    }
+}

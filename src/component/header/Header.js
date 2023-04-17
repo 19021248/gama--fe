@@ -17,18 +17,18 @@ const menuItem = [
     url: 'chart',
     description: '',
     child: [
-      { name: 'Overview', url: 'chart_overview' },
+      { name: 'Overview', url: 'overview' },
       { name: 'Create your own', url: 'create' },
     ],
   },
   {
     name: 'Research',
-    url: 'chat',
+    url: 'research',
     description: '',
   },  
   {
     name: 'Initiative',
-    url: 'chat',
+    url: 'initiative',
     description: '',
     child: [
       { name: 'Reach', url: 'reach' },
@@ -43,7 +43,7 @@ const menuItem = [
     url: 'user',
     description: '',
     child: [
-      { name: 'Account info', url: 'user' },
+      { name: 'Account info', url: 'me' },
       { name: 'Log out', url: 'logout' },
     ],
   },
@@ -71,7 +71,7 @@ const Header = () => {
                     <div
                       className="dropdown-item"
                       onClick={() => {
-                        history.push(`/${child.url}`);
+                        history.push(`/${item.url}/${child.url}`);
                       }}
                     >
                       {child.name}

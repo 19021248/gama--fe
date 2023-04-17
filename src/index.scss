@@ -2,15 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Noto Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 #root {
@@ -42,4 +42,16 @@ code {
 
 .ant-modal-header {
   border-radius: 15px 15px 0px 0px !important;
+}
+.main-button {
+  background-color: #1890ff;
+  border: 1px solid #57a6f0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: #007ef3;
+  }
 }
