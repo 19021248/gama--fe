@@ -34,7 +34,6 @@ const resource = [
 export default function InitiativeResourcePage() {
   return (
     <div className="resource main-initiative-container">
-      <Header />
       <div className="main-frame">
         <div class="banner">
           <div class="banner-title">Resource</div>

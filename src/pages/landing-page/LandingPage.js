@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
-import PageFooter from '../../component/edit-page/page-footer/PageFooter';
 import { LogIn } from '../../component/auth/log-in.component';
 import { getItem } from '../../utils';
-import Header from '../../component/header/Header';
 import { Register } from '../../component/auth/register.component';
 const usedTech = [
   {
@@ -46,35 +44,7 @@ export default function LandingPage() {
   return (
     <React.Fragment>
       <div className="landing-page">
-        {loggedIn ? (
-          <Header />
-        ) : (
-          <div className="header">
-            <img
-              alt="logo"
-              src="https://uet.vnu.edu.vn/wp-content/uploads/2017/02/logo2_new.png"
-            />
-            <p className="test">
-              HANOI UNIVERSITY OF ENGINEERING AND TECHNOLOGY
-            </p>
-            <button
-              className="ld-btn"
-              type="link"
-              onClick={() => {
-                window.location = 'https://uet.vnu.edu.vn/';
-              }}
-            >
-              <span
-                style={{
-                  padding: 12,
-                  width: '100%',
-                }}
-              >
-                Find Us
-              </span>
-            </button>
-          </div>
-        )}
+        
         <div className="content">
           <div className="overlay">
             <h2 id="name">
@@ -94,7 +64,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="text-content">
-          <div className="ld-title">3 Trăm triệu người dùng</div>
+          <div className="ld-title"></div>
         </div>
         <div className="content introWeb">
           <div className="descript-overlay">
@@ -107,7 +77,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="text-content">
-          <div className="ld-title">3 Trăm triệu người dùng</div>
+          <div className="ld-title"></div>
         </div>
         <div className="content intro-ai">
           <div className="descript-overlay">
@@ -177,7 +147,6 @@ export default function LandingPage() {
             </span>
           </ul>
         </div>
-        <PageFooter />
       </div>
       {showLogin && (
         <LogIn

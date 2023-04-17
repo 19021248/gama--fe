@@ -1,13 +1,10 @@
 import React from 'react';
-import Header from '../../component/header/Header';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
 export default function SimulationHelpPage({ setChoose }) {
   const history = useHistory();
   return (
     <div className="simulation-edit-page">
-      <Header />
-
       <div className="content">
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <div
@@ -49,9 +46,7 @@ export default function SimulationHelpPage({ setChoose }) {
         </div>
         <div style={{ margin: 'auto' }}>
           <button
-            onClick={() => {
-              history.push('/simulation/edit');
-            }}
+            onClick={null}
             className="main-button"
           >
             SIMULATE NOW

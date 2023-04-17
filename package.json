@@ -24,6 +24,7 @@
     "node-sass": "^7.0.1",
     "process": "^0.11.10",
     "react": "^17.0.2",
+    "react-charts": "^3.0.0-beta.54",
     "react-chat-engine": "^1.11.28",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.15.5",

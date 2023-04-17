@@ -18,20 +18,20 @@ const menuItem = [
     description: '',
     child: [
       { name: 'Overview', url: 'overview' },
-      { name: 'Create your own', url: 'create' },
+      // { name: 'Create your own', url: 'create' },
     ],
   },
-  {
+  /* {
     name: 'Research',
     url: 'research',
     description: '',
-  },  
+  }, */
   {
     name: 'Initiative',
     url: 'initiative',
     description: '',
     child: [
-      { name: 'Reach', url: 'reach' },
+      // { name: 'Reach', url: 'reach' },
       { name: 'Future event', url: 'event' },
       { name: 'Resource', url: 'resource' },
       { name: 'Team', url: 'team' },
@@ -55,7 +55,7 @@ const Header = () => {
       <div className="common-header">
         <img
           alt="logo"
-          className='logo'
+          className="logo"
           src="https://uet.vnu.edu.vn/wp-content/uploads/2017/02/logo2_new.png"
           onClick={() => {
             history.push('/');

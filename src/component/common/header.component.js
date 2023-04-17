@@ -98,7 +98,6 @@ const HeaderComp = (props) => {
           onUpdate={onUpdate}
         />
       )}
-      <Header />
     </>
   );
 };

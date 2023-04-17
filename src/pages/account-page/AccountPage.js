@@ -13,7 +13,6 @@ export default function AccountPage() {
         alignItems: 'center',
       }}
     >
-      <Header />
 
       <div
         style={{

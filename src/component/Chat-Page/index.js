@@ -5,7 +5,6 @@ import Header from '../header/Header';
 export default function Chat() {
   return (
     <React.Fragment>
-      <Header />
       <ChatEngine
         height="100vh"
         projectID="c4d92bb6-de3a-496d-9c57-99a28ff1f2c3"

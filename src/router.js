@@ -39,26 +39,27 @@ export const router = [
     component: Register,
   },
   {
-    name: 'edit',
-    path: '/edit',
+    name: 'simulation-help',
+    path: '/simulation/help/',
+    component: SimulationHelpPage,
+  },
+  {
+    name: 'simulation-edit',
+    path: '/simulation/edit/',
     component: Edit,
   },
   {
-    name: 'simulation',
-    path: '/simulation/:id/history',
+    name: 'simulation-history',
+    path: '/simulation/:id/history/',
     component: SimulationHistoryPage,
   },
   // New
   {
-    name: 'simulation-edit',
-    path: '/simulation/edit/:id',
+    name: 'simulation',
+    path: '/simulation/:id',
     component: Simulation,
   },
-  {
-    name: 'simulation-help',
-    path: '/simulation/help',
-    component: SimulationHelpPage,
-  },
+
   {
     name: 'chart',
     path: '/chart/overview',
@@ -111,5 +112,5 @@ export const router = [
     name: 'not-found',
     path: '*',
     component: NotFoundPage,
-  }
+  },
 ];

@@ -9,9 +9,8 @@ export default function ChartOverviewPage() {
         width: '100%',
       }}
     >
-      <Header />
       <h1 style={{ fontSize: 50, fontWeight: 600, textAlign: 'center' }}>
-        ĐỒ THỊ TRỰC QUAN HÓA
+      CHART OVERVIEW 
       </h1>
       <img
         src="https://i.imgur.com/2m61koy.jpg"

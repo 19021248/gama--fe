@@ -1,32 +1,34 @@
 import React from 'react';
-import Header from '../../component/header/Header';
 import './style.scss';
 const teamMember = [
   {
+    name: 'Phạm Mạnh Linh',
+    position: 'Prof',
+    description: `Postdoctoral Researcher at INRIA, France
+    Ph.D. from Grenoble Alpes University, France
+    M.S. from Texas A&M University, USA
+    Eng. from Hanoi University of Science and Technology, Vietnam`,
+    photo: '../../image/linh.png',
+  },
+  {
+    name: 'Nguyễn Xuân Trường',
+    position: 'President',
+    photo: '../../image/truong.jpg',
+
+    description: '408-Laboratory president',
+  },
+  {
     name: 'Đỗ Đại Dương',
     photo: '../../image/DuongDai.png',
-    position: 'Chủ tịch',
-    description: 'This is a description',
-  },
-  {
-    name: 'Nguyễn Văn A',
-    position: 'Chủ tịch',
-    photo: '../..//image/human.webp',
-
-    description: 'This is a description',
-  },
-  {
-    name: 'Nguyễn Văn B',
-    position: 'Chủ tịch',
-    photo: '../..//image/human.webp',
-
-    description: 'This is a description',
+    position: 'Student',
+    description: `Gold medal robotic 2019-2020
+    Student with 5 goods 2019-2020
+    Gold medals math IMO 2019`,
   },
 ];
 export default function InitiativeTeamPage() {
   return (
     <div className="team main-initiative-container">
-      <Header />
       <div className="main-frame">
         <div class="banner">
           <div class="banner-title">Team</div>

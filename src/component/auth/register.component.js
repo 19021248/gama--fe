@@ -28,7 +28,7 @@ export const Register = ({
           'Create account successfully',
           NOTIFICATION_TYPE.SUCCESS,
         );
-        if (popup) onSwitch();
+        if (popup) onClose();
         else history.push('/login');
       })
       .catch((err) => {
@@ -40,10 +40,9 @@ export const Register = ({
   };
   return (
     <>
-      <div className="container">
+      <div className={`container ${popup && 'pop-up'}`}>
+        <div className="container-bg" onClick={onClose}></div>
         <div className="form-container">
-          <div className="container-bg" onClick={onClose}></div>
-
           <Form
             name="basic"
             labelCol={{ span: 8 }}

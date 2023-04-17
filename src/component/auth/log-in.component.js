@@ -29,6 +29,8 @@ export const LogIn = ({
         localStorage.setItem('introduce', true);
         if (popup) {
           onClose();
+          window.location.reload();
+
         } else {
           history.push('/home');
         }

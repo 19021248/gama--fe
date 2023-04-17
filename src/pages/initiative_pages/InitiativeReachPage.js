@@ -5,7 +5,6 @@ import './style.scss';
 export default function InitiativeReachPage() {
   return (
     <div className="reach main-initiative-container">
-      <Header />
       <div className="main-frame">
         <div class="banner">
           <div class="banner-title">Reach</div>

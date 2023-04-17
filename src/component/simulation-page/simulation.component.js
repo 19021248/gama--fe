@@ -71,7 +71,7 @@ const Simulation = (props) => {
         }
         setPanes(paneList);
         var tabs = {};
-        data.map((item) => {
+        data.foreach((item) => {
           tabs[item?.name] = item?.urls;
           if ((item?.urls || []).length > max) max = item?.urls?.length;
         });
@@ -312,6 +312,7 @@ const Simulation = (props) => {
                                           src="/image/plus.png"
                                           width={13}
                                           height={13}
+                                          alt=''
                                         />
                                       </button>
                                     </Tooltip>
@@ -326,6 +327,7 @@ const Simulation = (props) => {
                                           src="/image/minus.png"
                                           width={13}
                                           height={13}
+                                          alt=''
                                         />
                                       </button>
                                     </Tooltip>
@@ -343,6 +345,7 @@ const Simulation = (props) => {
                                           src="/image/target.png"
                                           width={15}
                                           height={15}
+                                          alt=''
                                         />
                                       </button>
                                     </Tooltip>

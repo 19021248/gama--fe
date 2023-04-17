@@ -1,0 +1,8 @@
+.chart-create-page {
+    padding: 50px 100px 50px 100px;
+    .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
