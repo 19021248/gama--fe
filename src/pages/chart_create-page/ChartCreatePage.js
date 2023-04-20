@@ -1,16 +1,19 @@
 import React from 'react';
 import { Line, Column, Pie, G2 } from '@ant-design/charts';
-import { Row, Col, Button, Form, Input, Progress } from 'antd';
+import { Row, Col } from 'antd';
 import { useEffect, useState } from 'react';
-import './style.scss';
-export default function Dashboard() {
-  const G = G2.getEngine('canvas');
 
-  const allWidth = 500,
-    allHeigh = 300;
+import './style.scss';
+import { CirclePicker } from 'react-color';
+export default function Dashboard() {
+  const allWidth = 600,
+    allHeigh = 400;
   const randomColor = () =>
     `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+
   const ChartDataCreateItem = (
+    title,
+    setChartName,
     data,
     setData,
     label1,
@@ -20,168 +23,226 @@ export default function Dashboard() {
   ) => {
     return (
       <div className="chart-data-create">
+        Tên bảng
+        <input
+          className="main-input dimmed"
+          defaultValue={title}
+          onBlur={(e) => {
+            setChartName(e.target.value);
+          }}
+        />
         <div className="chart-row">
-          <div>{label1}</div>
-          <div>{label2}</div>
+          <input
+            className="main-input dimmed"
+            defaultValue={label1}
+            onBlur={(e) => {
+              setLabel1(e.target.value);
+            }}
+            disabled={true}
+          />
+          <input
+            className="main-input dimmed"
+            defaultValue={label2}
+            onBlur={(e) => {
+              setLabel2(e.target.value);
+            }}
+            disabled={true}
+          />
+          <div>Color</div>
+          <div></div>
         </div>
-        {data.map((el, index) =>
-          index === 0 ? (
-            <></>
-          ) : (
-            <div className="chart-row">
-              <Input
-                default={el.name}
-                onChange={(e) => {
-                  let newData = [...data];
-                  newData[index].name = e.target.value;
-                  setData(newData);
-                }}
-              />
-              <Input
-                default={el.value}
-                onChange={(e) => {
-                  let newData = [...data];
-                  newData[index].value = e.target.value;
-                  setData(newData);
-                }}
-              />
+        {data.map((el, index) => (
+          <div className="chart-row" key={index}>
+            <input
+              className="main-input"
+              defaultValue={el.name}
+              onBlur={(e) => {
+                let newData = [...data];
+                newData[index].name = e.target.value;
+                setData(newData);
+              }}
+            />
+            <input
+              className="main-input"
+              defaultValue={el.value}
+              onBlur={(e) => {
+                let newData = [...data];
+                newData[index].value = +e.target.value;
+                setData(newData);
+              }}
+            />
+            <div
+              className={`color-picker`}
+              style={{ backgroundColor: el.color }}
+            >
+              <div className="color-picker-picker">
+                <CirclePicker
+                  color={el.color}
+                  onChange={(color) => {
+                    let newData = [...data];
+                    newData[index].color = color.hex;
+                    setData(newData);
+                  }}
+                />
+              </div>
             </div>
-          ),
-        )}
-        <Button
+            <div
+              className="delete-button"
+              onClick={() => {
+                let newData = [...data];
+                newData.splice(index, 1);
+                setData(newData);
+              }}
+            >
+              Delete
+            </div>
+          </div>
+        ))}
+        <button
+          className="main-button"
           onClick={() => {
             let newData = [...data];
-            newData.push({ name: '', value: '' });
+            newData.push({ name: '', value: '', color: randomColor() });
             setData(newData);
           }}
         >
           Add new field
-        </Button>
+        </button>
       </div>
     );
   };
-  const [firstChartData, setFirstChartData] = useState([]);
-  const [firstChartLabel1, setFirstChartLabel1] = useState('Goal');
-  const [firstChartLabel2, setFirstChartLabel2] = useState('Time');
 
-  const firstChartConfig = {
-    data: firstChartData,
-    xField: 'name',
-    yField: 'value',
-    width: allWidth,
-    height: allHeigh,
-    autoFit: false,
-    color: ({ label }) => {
-      return randomColor();
-    },
-    label: {
-      position: 'bottom',
-      style: {
-        fill: '#FFFFFF',
-        opacity: 0.6,
-      },
-    },
-    xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
-      },
-    },
-    meta: {
-      name: {
-        alias: firstChartLabel1,
-      },
-      value: {
-        alias: firstChartLabel2,
-      },
-    },
-  };
+  const ChartRow = ({ type }) => {
+    const [data, setData] = useState([]);
+    const [label1, setLabel1] = useState('Name');
+    const [label2, setLabel2] = useState('Value');
+    const [chartName, setChartName] = useState('Chart');
+    const config =
+      type === 1
+        ? {
+            data: data,
+            xField: 'name',
+            yField: 'value',
+            width: allWidth,
+            height: allHeigh,
+            autoFit: false,
+            color: ({ name }) => {
+              return data.find((el) => el.name === name).color;
+            },
+            label: {
+              position: 'bottom',
+              style: {
+                fill: '#FFFFFF',
+                opacity: 0.6,
+              },
+            },
+            xAxis: {
+              label: {
+                autoHide: true,
+                autoRotate: false,
+              },
+            },
+            yAxis: {
+              min: 0,
+            },
+            meta: {
+              name: {
+                alias: label1,
+              },
+              value: {
+                alias: label2,
+              },
+            },
+          }
+        : type === 2
+        ? {
+            appendPadding: 10,
+            data: data,
+            angleField: 'value',
+            colorField: 'name',
+            color: ({ name }) => {
+              return data.find((el) => el.name === name).color;
+            },
+            width: allWidth,
+            height: allHeigh,
+            radius: 0.9,
+            label: {
+              type: 'inner',
+              offset: '-30%',
+              content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+              style: {
+                fontSize: 14,
+                textAlign: 'center',
+              },
+            },
+            interactions: [
+              {
+                type: 'element-active',
+              },
+            ],
+          }
+        : {
+            data: data,
+            xField: 'name',
+            yField: 'value',
+            width: allWidth,
+            height: allHeigh,
+            autoFit: false,
+            color: ({ name }) => {
+              return randomColor();
+            },
+            label: {
+              position: 'bottom',
+              style: {
+                fill: '#FFFFFF',
+                opacity: 0.6,
+              },
+            },
+            xAxis: {
+              label: {
+                autoHide: true,
+                autoRotate: false,
+              },
+            },
+          };
 
-  const [secondChartData, setSecondChartData] = useState([]);
-  const genderDataGraphConfig = {
-    appendPadding: 10,
-    data: secondChartData,
-    angleField: 'percentage',
-    colorField: 'label',
-    color: ({ label }) => {
-      return randomColor();
-    },
-    width: allWidth,
-    height: allHeigh + 100,
-    radius: 0.9,
-    label: {
-      type: 'inner',
-      offset: '-30%',
-      content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
-      style: {
-        fontSize: 14,
-        textAlign: 'center',
-      },
-    },
-    interactions: [
-      {
-        type: 'element-active',
-      },
-    ],
-  };
-
-  const [thirdChartData, setThirdChartData] = useState([]);
-  const thirdChartConfig = {
-    data: thirdChartData,
-    xField: 'name',
-    yField: 'value',
-    width: allWidth,
-    height: allHeigh,
-    autoFit: false,
-    color: ({ label }) => {
-      return randomColor();
-    },
-    label: {
-      position: 'bottom',
-      style: {
-        fill: '#FFFFFF',
-        opacity: 0.6,
-      },
-    },
-    xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
-      },
-    },
+    return (
+      <Row gutter={10}>
+        <Col span={12}>
+          {ChartDataCreateItem(
+            chartName,
+            setChartName,
+            data,
+            setData,
+            label1,
+            label2,
+            setLabel1,
+            setLabel2,
+          )}
+        </Col>{' '}
+        <Col span={12}>
+          <div class="chart-wrapper">
+            {type === 1 ? (
+              <Column {...config} conf loading={false} />
+            ) : type === 2 ? (
+              <Pie {...config} conf loading={false} />
+            ) : (
+              <Line {...config} conf loading={false} />
+            )}
+            {chartName}
+          </div>
+        </Col>
+      </Row>
+    );
   };
   return (
     <div className="chart-create-page">
       <Row>
         <h1>Chart overview </h1>
       </Row>
-      <Row gutter={10}>
-        <Col span={12}>
-          {ChartDataCreateItem(
-            firstChartData,
-            setFirstChartData,
-            firstChartLabel1,
-            firstChartLabel2,
-            setFirstChartLabel1,
-            setFirstChartLabel2,
-          )}
-        </Col>{' '}
-        <Col span={12}>
-          <Column {...firstChartConfig} conf loading={false} />
-        </Col>
-      </Row>{' '}
-      <Row gutter={10}>
-        <Col span={12}>Em yêu 2</Col>{' '}
-        <Col span={12}>
-          <Pie {...genderDataGraphConfig} conf loading={false} />
-        </Col>
-      </Row>{' '}
-      <Row gutter={10}>
-        <Col span={12}>Em yêu 3</Col>{' '}
-        <Col span={12}>
-          <Line {...thirdChartConfig} conf loading={false} />
-        </Col>
-      </Row>
+      <ChartRow type={1} />
+      <ChartRow type={2} />
+      <ChartRow type={3} />
     </div>
   );
 }
