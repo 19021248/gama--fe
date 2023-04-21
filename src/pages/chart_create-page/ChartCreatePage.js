@@ -38,7 +38,6 @@ export default function Dashboard() {
             onBlur={(e) => {
               setLabel1(e.target.value);
             }}
-            disabled={true}
           />
           <input
             className="main-input dimmed"
@@ -46,7 +45,6 @@ export default function Dashboard() {
             onBlur={(e) => {
               setLabel2(e.target.value);
             }}
-            disabled={true}
           />
           <div>Color</div>
           <div></div>
@@ -207,8 +205,8 @@ export default function Dashboard() {
           };
 
     return (
-      <Row gutter={10}>
-        <Col span={12}>
+      <div className="item-row">
+        <div className="item-col">
           {ChartDataCreateItem(
             chartName,
             setChartName,
@@ -219,9 +217,15 @@ export default function Dashboard() {
             setLabel1,
             setLabel2,
           )}
-        </Col>{' '}
-        <Col span={12}>
+        </div>{' '}
+        <div className="item-col">
           <div class="chart-wrapper">
+            {[1, 3].includes(type) && (
+              <React.Fragment>
+                <div className="chart-x-axis">{label2}</div>
+                <div className="chart-y-axis">{label1}</div>
+              </React.Fragment>
+            )}
             {type === 1 ? (
               <Column {...config} conf loading={false} />
             ) : type === 2 ? (
@@ -231,8 +235,8 @@ export default function Dashboard() {
             )}
             {chartName}
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     );
   };
   return (

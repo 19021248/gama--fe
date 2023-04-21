@@ -71,7 +71,7 @@ const Simulation = (props) => {
         }
         setPanes(paneList);
         var tabs = {};
-        data.foreach((item) => {
+        data.forEach((item) => {
           tabs[item?.name] = item?.urls;
           if ((item?.urls || []).length > max) max = item?.urls?.length;
         });

@@ -21,17 +21,17 @@ const menuItem = [
       { name: 'Create your own', url: 'create' },
     ],
   },
-  /* {
+  {
     name: 'Research',
     url: 'research',
     description: '',
-  }, */
+  },
   {
     name: 'Initiative',
     url: 'initiative',
     description: '',
     child: [
-      // { name: 'Reach', url: 'reach' },
+      { name: 'Reach', url: 'reach' },
       { name: 'Future event', url: 'event' },
       { name: 'Resource', url: 'resource' },
       { name: 'Team', url: 'team' },
