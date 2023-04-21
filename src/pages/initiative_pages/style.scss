@@ -12,8 +12,10 @@
             padding-block: 40px;
             padding-inline: 20px;
             max-width: 1200px;
-            background-color: wheat;
             margin-bottom: 0;
+            color: white;
+            text-shadow: 2px 2px black;
+            background-size: cover !important;
             .banner-title {
                 font-size: 2.5rem;
                 font-weight: 600;
@@ -35,6 +37,11 @@
         }
     }
     &.event {
+        .banner {
+            background: url(../../../public/image/ini/event.webp);
+            background-size: cover;
+            background-position-y: 53%;
+        }
         .content {
             display: flex;
             flex-direction: column;
@@ -61,7 +68,8 @@
     }
     &.reach {
         .banner {
-            background-color: #54ffcc;
+            background: url(../../../public/image/ini/reach.webp);
+            background-position-y: 53%;
         }
         .content {
             display: flex;
@@ -79,12 +87,34 @@
                     font-size: 16px;
                     font-weight: 400;
                 }
+                .impact-item {
+                    display: grid;
+                    grid-template-columns: 60px 1fr;
+                    gap: 20px;
+                    .impact-icon {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                    .impact {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        .item-title {
+                            font-size: 20px;
+                            font-weight: 600;
+                        }
+                        .item-description {
+                            font-size: 16px;
+                            font-weight: 400;
+                        }
+                    }
+                }
             }
         }
     }
     &.resource {
         .banner {
-            background-color: rgb(0, 148, 0);
+            background: url(../../../public/image/ini/resource.webp);
         }
         .content {
             display: flex;
@@ -116,7 +146,9 @@
     }
     &.team {
         .banner {
-            background-color: #369af8;
+            background: url(../../../public/image/ini/team.webp);
+            background-size: cover;
+            background-position-y: 53%;
         }
         .content {
             display: grid;

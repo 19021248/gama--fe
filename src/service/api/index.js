@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8085/",
+  baseURL: "https://4f6e-2001-ee0-4141-ce71-7d25-6de1-4d27-34f0.ngrok-free.app/",
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

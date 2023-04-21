@@ -4,6 +4,9 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    background: url(../../../../public/image/footer_bg.webp);
+    background-size: cover;
+    background-position-y: 70%;
     .media-contact {
         margin-bottom: 10px;
         display: flex;

@@ -12,6 +12,7 @@ export default function Dashboard() {
     `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
   const ChartDataCreateItem = (
+    type,
     title,
     setChartName,
     data,
@@ -71,7 +72,10 @@ export default function Dashboard() {
             />
             <div
               className={`color-picker`}
-              style={{ backgroundColor: el.color }}
+              style={{
+                backgroundColor: el.color,
+                display: type === 3 ? 'none' : 'initial',
+              }}
             >
               <div className="color-picker-picker">
                 <CirclePicker
@@ -208,6 +212,7 @@ export default function Dashboard() {
       <div className="item-row">
         <div className="item-col">
           {ChartDataCreateItem(
+            type,
             chartName,
             setChartName,
             data,

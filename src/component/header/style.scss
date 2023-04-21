@@ -2,7 +2,6 @@
   height: 110px;
 }
 .common-header {
-  font-family: Roboto, sans-serif;
   position: fixed;
   height: 110px;
   width: 100%;
@@ -14,7 +13,9 @@
   align-items: center;
   top: 0;
   z-index: 1;
-  background-color: white;
+  background: url(../../../public/image/header-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: 0 0 20px 0 black;
   img {
     width: 90px;
@@ -32,19 +33,25 @@
       position: relative;
       cursor: pointer;
       font-size: 24px;
+      text-shadow: 0.5px 0.5px 0.5px #ffffff;
+      font-weight: 600;
       &:hover {
         text-decoration: underline;
         color: #1890ff;
         .menu-dropdown {
           height: fit-content !important;
-          box-shadow: 0.5px 1px 5px 1px black;
+          box-shadow: 0.5px 1px 5px 1px #e5bdf693;
         }
       }
       .menu-dropdown {
         transition: all 0.2s;
         overflow: hidden;
+        font-size: 20px;
         height: 0;
-        background: white;
+        background-color: #d8dede;
+        background-image: linear-gradient(315deg, #d8dede 0%, #e5bdf6 74%);
+        border-radius: 15px;
+        font-weight: 200px;
         position: absolute;
         top: 100%;
         left: 0;

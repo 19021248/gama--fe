@@ -11,10 +11,9 @@
   border-color: #fff !important;
   user-select: none;
 }
-
-.ant-layout-sider {
-  height: 90vh;
+.ant-layout {
 }
+
 
 .main-content_1 {
   width: 100vw;
@@ -24,7 +23,13 @@
   align-items: center;
   padding: 10px;
 }
-
+.ant-layout-content {
+  background-color: #bdd4e7;
+  background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+}
+.ant-menu-root {
+  padding-top: 25px !important;
+}
 .media_comp {
   position: absolute;
   top: 60px;

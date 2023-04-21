@@ -1,7 +1,28 @@
 import React from 'react';
 import Header from '../../component/header/Header';
 import './style.scss';
-
+const resource = [
+  {
+    title: '250 million',
+    description: 'sim sessions per year',
+    name: 'sim-session-icon',
+  },
+  {
+    title: '137%',
+    description: 'growth across the COVID pandemic',
+    name: 'growth-icon',
+  },
+  {
+    title: '22,000+',
+    description: 'teachers reached in 2022 through ASF HN programs',
+    name: 'teacher-users-icon',
+  },
+  {
+    title: '49%',
+    description: `of all usage outside of the United States`,
+    name: 'usage-icon',
+  },
+];
 export default function InitiativeReachPage() {
   return (
     <div className="reach main-initiative-container">
@@ -12,20 +33,32 @@ export default function InitiativeReachPage() {
         </div>
         <div class="content">
           <div className="reach-item">
-            <span className="item-title">Nhiệm vụ</span>
+            <span className="item-title">Mission</span>
             <span className="item-description">
-              PhET Global is an initiative to improve the quality of global math
-              and science education by increasing PhET simulation access and
-              impact around the world.
+              ASF HN is an initiative to improve the quality of global math and
+              science education by increasing PhET simulation access and impact
+              around the world.
             </span>
           </div>
           <div className="reach-item">
-            <span className="item-title">Mục tiêu đã đạt được</span>
-            <span className="item-description">Tán 200 em</span>
-          </div>
-          <div className="reach-item">
-            <span className="item-title"></span>
-            <span className="item-description"></span>
+            <span className="item-title">Impact</span>
+            <span className="item-description">
+              {resource.map((el) => {
+                return (
+                  <div className="impact-item">
+                    <img
+                      className="impact-icon"
+                      src={`../../image/reach/${el.name}.svg`}
+                      alt={el.title}
+                    />
+                    <div className="impact">
+                      <div className="item-title">{el.title}</div>
+                      <div className="item-description">{el.description}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </span>
           </div>
         </div>
       </div>
