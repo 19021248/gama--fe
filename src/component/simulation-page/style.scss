@@ -14,7 +14,19 @@
 .ant-layout {
 }
 
+.ant-menu-light.scroll-bar {
+  position: relative;
+  top: 20px;
+  left: 20px;
+  border-radius: 20px;
+  height: 95% !important;
+  max-height: 100% !important;
+  overflow: hidden scroll;
+  width: 315px !important;
+}
+main.ant-layout-content {
 
+}
 .main-content_1 {
   width: 100vw;
   height: 80vh;

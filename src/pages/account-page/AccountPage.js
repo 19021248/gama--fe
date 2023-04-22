@@ -5,11 +5,19 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getItem } from '../../utils';
 import './style.scss';
+import { getUser } from '../../service/api';
 export default function AccountPage() {
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
     setUserInfo(getItem('user'));
   }, []);
+  useEffect(() => {
+    if (userInfo?.id) {
+      getUser(userInfo?.id).then((res) => {
+        console.log(res.data)
+      });
+    }
+  }, [userInfo?.id]);
   return (
     <div className="account-container">
       <div className="form-body">

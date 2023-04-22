@@ -1,9 +1,19 @@
 .chart-overview-page {
     padding: 40px 100px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+    background: url(../../../public/image/curvy_bg.jpg);
+    .chart-overview-body {
+        border-radius: 20px;
+        background-color: white;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
     h1 {
         font-size: 2em;
+    }
+    .ant-row {
+        justify-content: center;
     }
 }

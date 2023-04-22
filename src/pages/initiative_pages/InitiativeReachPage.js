@@ -36,7 +36,7 @@ export default function InitiativeReachPage() {
             <span className="item-title">Mission</span>
             <span className="item-description">
               ASF HN is an initiative to improve the quality of global math and
-              science education by increasing PhET simulation access and impact
+              science education by increasing ASF HN simulation access and impact
               around the world.
             </span>
           </div>

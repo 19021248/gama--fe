@@ -1,0 +1,26 @@
+.research-page {
+    padding: 0 210px;
+    background: url("../../../public/image/chartbg.webp");
+
+    .research-body {
+        background: white;
+        padding: 25px 15px;
+        display: grid;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        img {
+            max-width: 95%;
+            margin-bottom: 1em;
+        }
+        iframe {
+            margin-bottom: 1em;
+        }
+        h2 {
+            font-weight: 600;
+            font-size: 20px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    }
+}

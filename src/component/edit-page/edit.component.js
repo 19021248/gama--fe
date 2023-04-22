@@ -680,7 +680,9 @@ const Edit = (props) => {
               </Sider>
             </Col>
 
-            <Content style={{ padding: '0 20px 0 100px', minHeight: 280 }}>
+            <Content
+              style={{ padding: '26px 35px 24px 355px', minHeight: 280 }}
+            >
               <Tabs
                 hideAdd
                 onChange={onChange}
@@ -695,10 +697,11 @@ const Edit = (props) => {
                     style={{ margin: 0, width: '100%' }}
                   >
                     <div
-                      style={{
-                        height: '85vh',
-                        width: '80vw',
+                      style={{                    
                         backgroundColor: '#fff',
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20,
+                        overflow: 'hidden',
                       }}
                     >
                       {pane.name.includes('gaml') && (

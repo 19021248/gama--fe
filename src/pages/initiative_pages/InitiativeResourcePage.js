@@ -16,7 +16,7 @@ const resource = [
   },
   {
     title: 'Translations',
-    description: 'Select PhET simulations from among 115+ languages',
+    description: 'Select ASF HN simulations from among 115+ languages',
     name: 'translations',
   },
   {
