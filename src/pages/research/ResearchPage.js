@@ -3,8 +3,18 @@ import './style.scss';
 export default function ResearchPage() {
   return (
     <div className="research-page">
-      <div class="research-body">
-        <h2>1) Inspiration</h2>{' '}
+      <div className="page-navigator">
+        <a href="#inspiration">1) INSPIRATION</a>
+        <a href="#affection">2) AFFECTION ON STUDY</a>
+        <a href="#development">3) DEVELOPMENT IN M-ABM SIMULATION</a>
+        <a href="#achievement">4) Achievement in ABM-MODEL</a>
+      </div>
+      <div className="research-header">
+        <h1>Research and Development</h1>
+      </div>
+      <div className="research-body">
+        <div id="inspiration" className="header-faux" />
+        <h2>1) INSPIRATION</h2>{' '}
         <p>
           <b>ASF HN: Research and Development</b>: How ASF HN simulations are
           designed, and the research process of refining the simulations to best
@@ -17,7 +27,7 @@ export default function ResearchPage() {
           feeding network model.
         </p>
         <p> This is the first desgin for a smart feeding network. </p>
-        <img alt="" src={'../../image/research1.png'}/>
+        <img alt="" src={'../../image/research1.png'} />
         <p>
           Through many studies and reasearch we have succesfully builded the
           first model and it’s a great invention for our livestock economy.
@@ -38,7 +48,8 @@ export default function ResearchPage() {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
-        <h2>2) AFFECTION ON STUDY </h2>
+        <div id="affection" className="header-faux" />
+        <h2 id="">2) AFFECTION ON STUDY </h2>
         <p>"Can ASF HN sims replace real lab equipment?" </p>
         <p>
           Our studies have shown that ASF HN sims are more effective for
@@ -93,7 +104,8 @@ export default function ResearchPage() {
           investigating the envelope of where and how chemistry simulations can
           be effective learning tools.{' '}
         </p>
-        <h2>3) DEVELOPMENT IN M-ABM SIMULATION </h2>
+        <div id="development" className="header-faux" />
+        <h2 id="">3) DEVELOPMENT IN M-ABM SIMULATION </h2>
         <p>
           Multi-Agent Based Modeling (MABM) is a modeling approach that uses
           multiple agents to simulate complex systems. MABM is based on the
@@ -147,8 +159,9 @@ export default function ResearchPage() {
           scalable computational resources for running large-scale MABM
           simulations.{' '}
         </p>
-        <h2>Achievement in ABM-MODEL </h2>
-        <img alt="" src={'../../image/research2.png'}/>
+        <div id="achievement" className="header-faux" />
+        <h2 id="">4) Achievement in ABM-MODEL </h2>
+        <img alt="" src={'../../image/research2.png'} />
         <p>
           IN PADEMIC COVID 19 it was updated using real data from the COVID-19
           pandemic from May 26, 2020, to May 26, 2021 (365 days). Afer
@@ -167,7 +180,7 @@ export default function ResearchPage() {
           assumed to apply the social distance policy for all these tasks due to
           the city’s policy and the real data.{' '}
         </p>
-        <h2>Reasearch </h2>
+        <h2>Reference</h2>
         <p>
           Maynard-Smith J., 1982, Evolution and the Theory of Games, Cambridge
           University Press.{' '}

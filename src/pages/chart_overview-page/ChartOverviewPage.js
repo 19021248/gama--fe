@@ -185,10 +185,10 @@ export default function Dashboard() {
   };
   return (
     <div class="chart-overview-page">
+      <div className="chart-overview-header">
+        <h1>Chart overview</h1>
+      </div>
       <div className="chart-overview-body">
-        <Row>
-          <h1>Chart overview </h1>
-        </Row>
         <Row gutter={10}>
           <Col span={12}>
             <h1>HISTORGRAM</h1>
@@ -259,7 +259,7 @@ export default function Dashboard() {
           <Area {...fourthChartConfig} conf loading={false} />
         </Row>{' '}
         <Row>
-          Footer : There are various type of charts for simulating, you should
+          There are various type of charts for simulating, you should
           have knowledge about each of them and creat you an own one.
         </Row>
       </div>
