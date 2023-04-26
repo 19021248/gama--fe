@@ -37,7 +37,11 @@ const menuItem = [
       { name: 'Team', url: 'team' },
     ],
   },
-
+  {
+    name: 'Forum',
+    url: 'forum',
+    description: '',
+  },
   {
     name: 'Account',
     url: 'user',
@@ -50,6 +54,11 @@ const menuItem = [
 ];
 const Header = () => {
   const history = useHistory();
+  // trigger use effect wehn page url changed
+  const [url, setUrl] = React.useState(window.location.href);
+  React.useEffect(() => {
+    setUrl(window.location.href);
+  }, [history]);
   return (
     <React.Fragment>
       <div className="common-header">
@@ -64,7 +73,9 @@ const Header = () => {
         <div className="menu-bar">
           {menuItem.map((item) =>
             item?.child ? (
-              <div className="menu-item">
+              <div
+                className={`menu-item ${url.includes(item.url) && 'active'}`}
+              >
                 {item.name}
                 <div className="menu-dropdown">
                   {item.child.map((child) => (
@@ -81,7 +92,7 @@ const Header = () => {
               </div>
             ) : (
               <div
-                className="menu-item"
+                className={`menu-item ${url.includes(item.url) && 'active'}`}
                 onClick={() => {
                   history.push(`/${item.url}`);
                 }}

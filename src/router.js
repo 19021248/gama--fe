@@ -16,6 +16,7 @@ import InitiativeEventPage from './pages/initiative_pages/InitiativeEventPage';
 import InitiativeTeamPage from './pages/initiative_pages/InitiativeTeamPage';
 import InitiativeResourcePage from './pages/initiative_pages/InitiativeResourcePage';
 import NotFoundPage from './pages/not-found-page/NotFoundPage';
+import ForumPage from './pages/forum-page/ForumPage';
 export const router = [
   // Old router
   {
@@ -107,6 +108,11 @@ export const router = [
     name: 'user',
     path: '/user/logout',
     component: LogOutPage,
+  },  
+  {
+    name: 'forum',
+    path: '/forum',
+    component: ForumPage,
   },
   {
     name: 'not-found',

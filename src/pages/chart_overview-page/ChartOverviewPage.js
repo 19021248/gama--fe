@@ -191,7 +191,7 @@ export default function Dashboard() {
       <div className="chart-overview-body">
         <Row gutter={10}>
           <Col span={12}>
-            <h1>HISTORGRAM</h1>
+            <h1>HISTOGRAM</h1>
             <p>
               Histograms are useful for analyzing the distribution of data,
               identifying outliers or unusual patterns, and determining the
