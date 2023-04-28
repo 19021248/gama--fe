@@ -83,16 +83,16 @@ export const forum_posts = [
 export const forum_comments = [
   {
     id: 1,
-    content: 'Content 1',
-    user_id: 1,
+    content: 'What a great article',
+    user_id: 3,
     post_id: 1,
     created_at: '2021-07-01 00:00:00',
     updated_at: '2021-07-01 00:00:00',
   },
   {
     id: 2,
-    content: 'Content 2',
-    user_id: 1,
+    content: 'Your word need redo',
+    user_id: 4,
     post_id: 1,
     created_at: '2021-07-01 00:00:00',
     updated_at: '2021-07-01 00:00:00',

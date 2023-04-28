@@ -17,12 +17,25 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function ForumPage() {
+  const [searchText, setSearchText] = useState('');
+  const [filteredPost, setFilteredPost] = useState(forum_posts);
+  useEffect(() => {
+    const newForum = forum_posts.filter((user) =>
+      user.title.toLowerCase().includes(searchText.toLowerCase()),
+    );
+    setFilteredPost(newForum);
+  }, [searchText]);
   return (
     <div className="forum-container">
       <div className="forum-sidebar-left">
         <div className="forum-sidebar-item search">
           <FontAwesomeIcon icon={faSearch} />
-          Search
+          <input
+            className="post-search"
+            placeholder="Search"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
         </div>
         <div className="forum-sidebar-item">
           <FontAwesomeIcon icon={faHouseChimney} />
@@ -42,8 +55,10 @@ export default function ForumPage() {
           <input className="post-create-input" placeholder="Title" />
           <FontAwesomeIcon icon={faPlus} />
         </div>
-        {forum_posts.map((post, index) => (
+        {filteredPost.map((post, index) => (
           <div className="post-item" key={index}>
+            <FontAwesomeIcon className="bookmark-icon" icon={faBookmark} />
+
             <div className="post-item-header">{post.title}</div>
             <div className="post-item-subheader">
               <img
@@ -56,7 +71,23 @@ export default function ForumPage() {
               </div>
             </div>
             <div className="post-item-body">{post.content}</div>
-            <div className="post-item-footer"></div>
+            <div className="post-item-interact">
+              <input placeholder="Comments" className="interact-comment" />
+            </div>
+            <div className="post-item-footer">
+              {forum_comments
+                .filter((c) => c.post_id === post.id)
+                .map((c) => (
+                  <div className="comment-item">
+                    <img
+                      className="comment-avatar"
+                      src={forum_users[c.user_id].avatar}
+                      alt="avatar"
+                    />
+                    <div className="comment-content">{c.content}</div>
+                  </div>
+                ))}
+            </div>
           </div>
         ))}
       </div>
