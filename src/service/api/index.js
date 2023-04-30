@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "https://390a-2001-ee0-4141-ce71-9fb8-1626-f167-23b5.ngrok-free.app/",
+  baseURL: 'https://3691-2001-ee0-4141-ce71-f5b-696a-7bb4-9fc2.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -76,4 +76,13 @@ export const uploadFile = (payload) => {
 
 export const deleteFile = (id) => {
   return axiosInstance.delete(`/api/file/${id}`);
+};
+
+// forum
+
+export const createTopic = (payload) => {
+  return axiosInstance.post('/api/forum', payload);
+};
+export const getAllForum = () => {
+  return axiosInstance.get('/api/forum/getall');
 };

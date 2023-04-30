@@ -32,9 +32,7 @@ export const Register = ({
         else history.push('/login');
       })
       .catch((err) => {
-        if (err.response)
-          addNotification(err.response.data.message, NOTIFICATION_TYPE.ERROR);
-        else addNotification(err, NOTIFICATION_TYPE.ERROR);
+        addNotification('Error when register', NOTIFICATION_TYPE.ERROR);
       })
       .finally(() => setLoading(false));
   };

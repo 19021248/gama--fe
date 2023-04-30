@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getItem } from '../../utils';
 import './style.scss';
-import { getUser } from '../../service/api';
+import { getAllForum, getUser } from '../../service/api';
 import { forum_comments, forum_posts, forum_users } from './ForumDB';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -15,10 +15,17 @@ import {
   faPlus,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
+import TopicPost from '../../component/forum/topic-post/TopicPost';
 
 export default function ForumPage() {
   const [searchText, setSearchText] = useState('');
+  const [show, setShow] = useState(false);
   const [filteredPost, setFilteredPost] = useState(forum_posts);
+  useEffect(() => {
+    getAllForum().then((res) => {
+      console.log(res.data);
+    });
+  }, []);
   useEffect(() => {
     const newForum = forum_posts.filter((user) =>
       user.title.toLowerCase().includes(searchText.toLowerCase()),
@@ -53,7 +60,9 @@ export default function ForumPage() {
       <div className="forum-body">
         <div className="post-create">
           <input className="post-create-input" placeholder="Title" />
-          <FontAwesomeIcon icon={faPlus} />
+          <div className="post-button" onClick={() => setShow(true)}>
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
         </div>
         {filteredPost.map((post, index) => (
           <div className="post-item" key={index}>
@@ -103,6 +112,7 @@ export default function ForumPage() {
           </div>
         ))}
       </div>
+      <TopicPost show={show} setShow={setShow} />
     </div>
   );
 }

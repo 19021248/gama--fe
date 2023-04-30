@@ -1,23 +1,6 @@
 .landing-page {
   width: 100vw;
-  .ld-btn {
-    display: inline-block;
-    font-size: 24px;
-    color: #ffffff;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 15px;
-    margin: 6px 0;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 2px solid #6acef5;
-    border-radius: 35px;
-    transition: 0.2s;
-    width: max-content;
-    &:hover {
-      background: #6acef5;
-      color: black;
-    }
-  }
+
 
   .content {
     position: relative;
@@ -127,5 +110,23 @@
 
   #name {
     color: white;
+  }
+}
+.ld-btn {
+  display: inline-block;
+  font-size: 24px;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px;
+  margin: 6px 0;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid #6acef5;
+  border-radius: 35px;
+  transition: 0.2s;
+  width: max-content;
+  &:hover {
+    background: #6acef5;
+    color: black;
   }
 }

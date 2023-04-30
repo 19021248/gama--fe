@@ -27,7 +27,7 @@ function App(props) {
                 HANOI UNIVERSITY OF ENGINEERING AND TECHNOLOGY
               </p>
               <button
-                className="ld-btn"
+                className="ld-btn "
                 type="link"
                 onClick={() => {
                   window.location = 'https://uet.vnu.edu.vn/';

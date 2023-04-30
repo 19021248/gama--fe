@@ -30,16 +30,14 @@ export const LogIn = ({
         if (popup) {
           onClose();
           window.location.reload();
-
         } else {
           history.push('/home');
         }
         setItem('user', data.user);
       })
-      .catch(function (err) {
-        if (err.response)
-          addNotification(err.response.data.message, NOTIFICATION_TYPE.ERROR);
-        else addNotification(err, NOTIFICATION_TYPE.ERROR);
+      .catch((err) => {
+       
+        addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
       })
       .finally(() => setLoading(false));
   };
@@ -113,7 +111,8 @@ export const LogIn = ({
                   disabled={isLoading}
                   className="black-button"
                 >
-                  {!isLoading ? 'Log In' : 'Log In...'}
+                  Login
+                  {/* {!isLoading ? 'Log In' : 'Log In...'} */}
                 </Button>
               </Form.Item>
 
