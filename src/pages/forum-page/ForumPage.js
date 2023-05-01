@@ -5,33 +5,139 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getItem } from '../../utils';
 import './style.scss';
-import { getAllForum, getUser } from '../../service/api';
-import { forum_comments, forum_posts, forum_users } from './ForumDB';
+import {
+  getTopicsAll,
+  getTopicsApproved,
+  getTopicsUnapproved,
+  getTopicsSelf,
+  getTopicsBookmarked,
+  getUser,
+} from '../../service/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBookmark,
   faComment,
   faHouseChimney,
+  faList,
+  faListCheck,
   faPlus,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 import TopicPost from '../../component/forum/topic-post/TopicPost';
-
+import TopicView from '../../component/forum/topic-view/TopicView';
+import { UserAvatar } from '../../component/avatar/UserAvatar';
+const viewModes = [
+  {
+    value: 0,
+    label: 'All',
+    admin: true,
+    icon: faList
+  },
+  {
+    value: 1, // approved
+    label: 'Home',
+    admin: false,
+    icon: faHouseChimney
+  },
+  {
+    value: 2,
+    label: 'Queue',
+    admin: true,
+    icon: faListCheck
+  },
+  {
+    value: 3,
+    label: 'My topics',
+    admin: false,
+    icon: faComment
+  },
+  {
+    value: 4,
+    label: 'Bookmarked',
+    admin: false,
+    icon: faBookmark
+  },
+];
 export default function ForumPage() {
+  const isAdmin = true;
   const [searchText, setSearchText] = useState('');
+  const [isLoading, setIsloading] = useState(false);
   const [show, setShow] = useState(false);
-  const [filteredPost, setFilteredPost] = useState(forum_posts);
+  const [topic, setTopic] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [viewMode, setViewMode] = useState(0);
+  const currentUser = getItem('user');
+
+  // 0 view all
+  // 1 view approved
+  // 2 view not approved
+  // 3 view self
+  // 4 view bookmarked
+  const [filteredPost, setFilteredPost] = useState([]);
   useEffect(() => {
-    getAllForum().then((res) => {
-      console.log(res.data);
-    });
-  }, []);
+    setIsloading(true);
+    setTopic([]);
+    setSearchText('');
+
+    switch (viewMode) {
+      case 0:
+        getTopicsAll()
+          .then((res) => {
+            setTopic(res.data);
+          })
+          .finally(() => {
+            setIsloading(false);
+          });
+        break;
+      case 1:
+        getTopicsApproved()
+          .then((res) => {
+            setTopic(res.data);
+          })
+          .finally(() => {
+            setIsloading(false);
+          });
+        break;
+      case 2:
+        getTopicsUnapproved()
+          .then((res) => {
+            setTopic(res.data);
+          })
+          .finally(() => {
+            setIsloading(false);
+          });
+        break;
+      case 3:
+        getTopicsSelf(currentUser?.id)
+          .then((res) => {
+            setTopic(res.data);
+          })
+          .finally(() => {
+            setIsloading(false);
+          });
+        break;
+      case 4:
+        getTopicsBookmarked(currentUser?.id)
+          .then((res) => {
+            setTopic(res.data);
+          })
+          .finally(() => {
+            setIsloading(false);
+          });
+        break;
+      default:
+        break;
+    }
+  }, [viewMode]);
+
   useEffect(() => {
-    const newForum = forum_posts.filter((user) =>
+    const newForum = topic.filter((user) =>
       user.title.toLowerCase().includes(searchText.toLowerCase()),
     );
     setFilteredPost(newForum);
-  }, [searchText]);
+  }, [searchText, topic]);
+
   return (
     <div className="forum-container">
       <div className="forum-sidebar-left">
@@ -44,18 +150,18 @@ export default function ForumPage() {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
-        <div className="forum-sidebar-item">
-          <FontAwesomeIcon icon={faHouseChimney} />
-          Home
-        </div>
-        <div className="forum-sidebar-item">
-          <FontAwesomeIcon icon={faComment} />
-          Your thread
-        </div>
-        <div className="forum-sidebar-item">
-          <FontAwesomeIcon icon={faBookmark} />
-          Saved
-        </div>
+        {viewModes.map(
+          (item) =>
+            ((item.admin && isAdmin) || !item.admin) && (
+              <div
+                className="forum-sidebar-item"
+                onClick={() => setViewMode(item.value)}
+              >
+                <FontAwesomeIcon icon={item.icon} />
+                {item.label}
+              </div>
+            ),
+        )}
       </div>
       <div className="forum-body">
         <div className="post-create">
@@ -64,53 +170,38 @@ export default function ForumPage() {
             <FontAwesomeIcon icon={faPlus} />
           </div>
         </div>
-        {filteredPost.map((post, index) => (
-          <div className="post-item" key={index}>
-            <FontAwesomeIcon className="bookmark-icon" icon={faBookmark} />
 
-            <div className="post-item-header">{post.title}</div>
-            <div className="post-item-subheader">
-              <img
-                className="post-item-avatar"
-                src={forum_users[post.user_id].avatar}
-                alt="avatar"
+        {isLoading ? (
+          <div>Loading</div>
+        ) : filteredPost.length > 0 ? (
+          filteredPost.map((post, index) => (
+            <React.Fragment key={index}>
+              <TopicView
+                post={post}
+                user={users}
+                comment={comments}
+                showApproval={(viewMode === 0 || viewMode === 2) && isAdmin}
               />
-              <div className="post-item-name">
-                {forum_users[post.user_id].name}
-              </div>
-            </div>
-            <div className="post-item-body">{post.content}</div>
-            <div className="post-item-interact">
-              <input placeholder="Comments" className="interact-comment" />
-            </div>
-            <div className="post-item-footer">
-              {forum_comments
-                .filter((c) => c.post_id === post.id)
-                .map((c) => (
-                  <div className="comment-item">
-                    <img
-                      className="comment-avatar"
-                      src={forum_users[c.user_id].avatar}
-                      alt="avatar"
-                    />
-                    <div className="comment-content">{c.content}</div>
-                  </div>
-                ))}
-            </div>
-          </div>
-        ))}
+            </React.Fragment>
+          ))
+        ) : (
+          <div>No content</div>
+        )}
       </div>
       <div className="forum-sidebar-right">
-        {forum_users.map((user, index) => (
-          <div className="forum-sidebar-item" key={index}>
-            <img
-              className="forum-sidebar-item-avatar"
-              src={user.avatar}
-              alt="avatar"
-            />
-            <div className="forum-sidebar-item-name">{user.name}</div>
-          </div>
-        ))}
+        {users.length > 0 ? (
+          users.map((user, index) => (
+            <div className="forum-sidebar-item" key={index}>
+              <UserAvatar
+                src={user?.avatar}
+                className="forum-sidebar-item-avatar"
+              />
+              <div className="forum-sidebar-item-name">{user?.name}</div>
+            </div>
+          ))
+        ) : (
+          <div className="forum-sidebar-item">No user</div>
+        )}
       </div>
       <TopicPost show={show} setShow={setShow} />
     </div>

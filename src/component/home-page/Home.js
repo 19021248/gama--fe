@@ -21,6 +21,7 @@ import AccountComponent from './account.component';
 import { getItem } from '../../utils';
 import Edit from '../edit-page/edit.component';
 import { set } from 'lodash';
+import { SimulationProvider } from '../simulation-context/SimulationContext';
 
 const { Header, Sider, Content } = Layout;
 
@@ -124,17 +125,17 @@ const Home = () => {
             backgroundColor: 'white',
           }}
         >
-          {choose === 1 ? (
-            <HomeContent setChoose={setChoose} pages={Pages} />
-          ) : choose === 2 ? (
-            <SimulateHome setChoose={setChoose} />
-          ) : choose === 3 ? (
-            <Edit />
-          ) : choose === 4 ? (
-            <ChartComponent />
-          ) : (
-            <AccountComponent />
-          )}
+            {choose === 1 ? (
+              <HomeContent setChoose={setChoose} pages={Pages} />
+            ) : choose === 2 ? (
+              <SimulateHome setChoose={setChoose} />
+            ) : choose === 3 ? (
+              <Edit />
+            ) : choose === 4 ? (
+              <ChartComponent />
+            ) : (
+              <AccountComponent />
+            )}
         </Content>
       </Layout>
     </Layout>

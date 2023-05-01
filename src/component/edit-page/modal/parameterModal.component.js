@@ -2,12 +2,14 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Form, Modal, Descriptions, Input, Space, Button, Select } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { useEffect } from 'react';
+import { useSimulationContext } from '../../simulation-context/SimulationContext';
 
 const paramTypes = ['INT', 'FLOAT', 'BOOLEAN', 'STRING'];
 const { Option } = Select;
 
 export const ParameterModal = (props) => {
   const { isShow, onCancel, onSimulate, form, content } = props;
+  const { setFramerate, setNumberOfSimulation } = useSimulationContext();
   useEffect(() => {
     form.resetFields();
     var experiment = '';
@@ -74,7 +76,13 @@ export const ParameterModal = (props) => {
             },
           ]}
         >
-          <Input type="number" placeholder="Enter number" />
+          <Input
+            type="number"
+            placeholder="Enter number"
+            onChange={(e) => {
+              setNumberOfSimulation(e.target.value);
+            }}
+          />
         </Form.Item>
         <Form.Item label="Stop condition" name="until">
           <Input placeholder="Enter value" />
@@ -105,7 +113,14 @@ export const ParameterModal = (props) => {
             },
           ]}
         >
-          <Input type="number" placeholder="Enter number" step={1} />
+          <Input
+            type="number"
+            placeholder="Enter number"
+            step={1}
+            onChange={(e) => {
+              setFramerate(e.target.value);
+            }}
+          />
         </Form.Item>
         <Descriptions title="Parameters" />
         <div

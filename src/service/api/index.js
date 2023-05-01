@@ -1,11 +1,13 @@
 import * as axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://3691-2001-ee0-4141-ce71-f5b-696a-7bb4-9fc2.ngrok-free.app',
+  baseURL: process.env.REACT_APP_HOST,
+  //baseURL: 'https://7122-2001-ee0-4141-ce71-2add-a6c8-1bdd-249b.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
     'X-Requested-With': 'XMLHttpRequest',
+    'ngrok-skip-browser-warning': true,
   },
 });
 
@@ -42,9 +44,12 @@ export const deletePj = (payload) => {
 export const getUser = (id) => {
   return axiosInstance.get(`/api/user/${id}`);
 };
+export const getAllUser = (id) => {
+  return axiosInstance.get(`/api/user?over_view=1`);
+};
 
 export const updateUser = (id, payload) => {
-  return axiosInstance.post(`/api/user/update/${id}`, payload);
+  return axiosInstance.put(`/api/user/${id}`, payload);
 };
 
 export const createPj = (params) => {
@@ -83,6 +88,35 @@ export const deleteFile = (id) => {
 export const createTopic = (payload) => {
   return axiosInstance.post('/api/forum', payload);
 };
-export const getAllForum = () => {
-  return axiosInstance.get('/api/forum/getall');
+
+// get all unfiltered 0
+export const getTopicsAll = () => {
+  return axiosInstance.get('/api/forum?user_id=0');
 };
+// get approved 1
+export const getTopicsApproved = (status) => {
+  return axiosInstance.get(`/api/forum/?status=1&user_id=0`);
+};
+// get unapproved 2
+export const getTopicsUnapproved = (status) => {
+  return axiosInstance.get(`/api/forum/?status=0&user_id=0`);
+};
+// get self
+export const getTopicsSelf = (user_id) => {
+  return axiosInstance.get(`/api/forum?created_by=${user_id}`);
+};
+// get bookmarked
+export const getTopicsBookmarked = (user_id) => {
+  return axiosInstance.get(`/api/forum?&user_id=${user_id}&bookmarked=1`);
+};
+
+// topic reply
+export const commentTopic = (payload) => {
+  return axiosInstance.get('/api/forum/reply', payload);
+};
+
+// topic approve
+
+// topic disapprove
+
+// topic bookmark

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Layout, Menu, Col, Table, Input, Tooltip, Row, Form } from 'antd';
 import {
   ProfileOutlined,
@@ -484,39 +485,37 @@ const Edit = (props) => {
         addNotification(err?.response?.data?.message, NOTIFICATION_TYPE.ERROR),
       );
   };
+
   return (
-    <>
-      <Layout
-        style={{ height: '100vh' }}
-        onClick={() => setPopup({ visible: false, x: 0, y: 0 })}
-      >
-        <ConfirmModal {...confirmModal} />
-        <Popup {...popup} />
-        {modal.type === 'UPLOAD_PROJECT' && modal.isOpen && (
+    <Layout
+      style={{ height: '100vh' }}
+      onClick={() => setPopup({ visible: false, x: 0, y: 0 })}
+    >
+      <ConfirmModal {...confirmModal} />
+      <Popup {...popup} />
+      {modal.isOpen &&
+        (modal.type === 'UPLOAD_PROJECT' ? (
           <UploadProjectModal
             isShow={modal.isOpen}
             onCancel={() => setModal({ type: null, isOpen: false, id: null })}
             onUpload={handleUploadProject}
             data={projectTree}
           />
-        )}
-        {modal.type === 'DELETE' && modal.isOpen && (
+        ) : modal.type === 'DELETE' ? (
           <DeleteProjectModal
             isShow={modal.isOpen}
             onCancel={() => setModal({ type: null, isOpen: false, id: null })}
             onDelete={handleDeleteProject}
             data={projectTree}
           />
-        )}
-        {modal.type === 'UPLOAD_FILE' && modal.isOpen && (
+        ) : modal.type === 'UPLOAD_FILE' ? (
           <UploadFileModal
             isShow={modal.isOpen}
             onCancel={() => setModal({ type: null, isOpen: false, id: null })}
             onUploadFile={handleUploadFile}
             data={projectTree}
           />
-        )}
-        {modal.type === 'PARAMETER' && modal.isOpen && (
+        ) : modal.type === 'PARAMETER' ? (
           <ParameterModal
             isShow={modal.isOpen}
             onCancel={() => {
@@ -527,184 +526,183 @@ const Edit = (props) => {
             form={form}
             content={currentContent}
           />
-        )}
-        <HeaderComp />
-        <Content style={{ padding: '0 0px' }}>
-          <Layout className="site-layout-background" style={{ height: '90vh' }}>
-            <Col>
-              <Sider className="site-layout-background" width={200}>
-                <Menu
-                  mode="inline"
-                  defaultOpenKeys={['sub1']}
-                  className={'scroll-bar'}
-                  style={{
-                    height: '100%',
-                    maxHeight: '100vh',
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    width: 300,
-                  }}
-                >
-                  <Row>
-                    <Col span={24}>
-                      <Form
-                        className="search-form"
-                        initialValues={{ keyword: '' }}
-                        onFinish={(data) => {
-                          onSearch(data.keyword || '', activeKey);
-                        }}
-                      >
-                        <Form.Item name="keyword">
-                          <Input
-                            type="text"
-                            placeHolder="Search"
-                            className="search-input"
-                            width={20}
-                          />
-                        </Form.Item>
-                        <Button
-                          type="text"
-                          title="Search"
-                          htmlType="submit"
-                          shape="circle"
-                          className="search-button"
-                          icon={<SearchOutlined />}
-                        />
-                        <div className="search-option">
-                          <Tooltip title="Upload Project">
-                            <Button
-                              className="search-button_child"
-                              type="text"
-                              shape="circle"
-                              icon={<CloudUploadOutlined />}
-                              onClick={() =>
-                                setModal({
-                                  type: 'UPLOAD_PROJECT',
-                                  isOpen: true,
-                                  id: null,
-                                })
-                              }
-                            />
-                          </Tooltip>
-                          <Tooltip title="Upload File">
-                            <Button
-                              className="search-button_child"
-                              type="text"
-                              shape="circle"
-                              icon={<FileAddOutlined />}
-                              onClick={() =>
-                                setModal({
-                                  type: 'UPLOAD_FILE',
-                                  isOpen: true,
-                                  id: null,
-                                })
-                              }
-                            />
-                          </Tooltip>
-                          <Tooltip title="Delete">
-                            <Button
-                              type="text"
-                              className="search-button_child"
-                              shape="circle"
-                              icon={<DeleteOutlined />}
-                              onClick={() =>
-                                setModal({
-                                  type: 'DELETE',
-                                  isOpen: true,
-                                  id: null,
-                                })
-                              }
-                            />
-                          </Tooltip>
-                        </div>
-                      </Form>
-                    </Col>
-                  </Row>
-                  {projectTree.map((item, index) => {
-                    return (
-                      <SubMenu
-                        key={item.id}
-                        icon={<ProfileOutlined />}
-                        title={item.name}
-                      >
-                        <SubMenu
-                          key={'includes' + item.id}
-                          icon={<FolderOpenOutlined />}
-                          title="includes"
-                        >
-                          {item.includes.map((include) => (
-                            <Menu.Item
-                              key={include.id}
-                              icon={<FileTextOutlined />}
-                              onClick={() => onAddTabs(include.id)}
-                              onContextMenu={(e) =>
-                                handleRightClickFile(e, include.id)
-                              }
-                            >
-                              <Tooltip
-                                style={{ width: 'auto' }}
-                                title={include.filename}
-                              >
-                                {include.filename}
-                              </Tooltip>
-                            </Menu.Item>
-                          ))}
-                        </SubMenu>
-                        <SubMenu
-                          key={'models' + item.id}
-                          icon={<FolderOpenOutlined />}
-                          title="models"
-                        >
-                          {item.models.map((model) => (
-                            <Menu.Item
-                              key={model.id}
-                              icon={<FileTextOutlined />}
-                              onClick={() => onAddTabs(model.id)}
-                              onContextMenu={(e) =>
-                                handleRightClickFile(e, model.id)
-                              }
-                            >
-                              <Tooltip
-                                style={{ width: 'auto' }}
-                                title={model.filename}
-                              >
-                                {model.filename}
-                              </Tooltip>
-                            </Menu.Item>
-                          ))}
-                        </SubMenu>
-                      </SubMenu>
-                    );
-                  })}
-                </Menu>
-              </Sider>
-            </Col>
-
-            <Content
-              style={{ padding: '26px 35px 24px 355px', minHeight: 280 }}
-            >
-              <Tabs
-                hideAdd
-                onChange={onChange}
-                activeKey={activeKey}
-                type="editable-card"
-                onEdit={onEdit}
+        ) : null)}
+      <HeaderComp />
+      <Content style={{ padding: '0 0px' }}>
+        <Layout className="site-layout-background" style={{ height: '90vh' }}>
+          <Col>
+            <Sider className="site-layout-background" width={200}>
+              <Menu
+                mode="inline"
+                defaultOpenKeys={['sub1']}
+                className={'scroll-bar'}
+                style={{
+                  height: '100%',
+                  maxHeight: '100vh',
+                  overflowY: 'scroll',
+                  overflowX: 'hidden',
+                  width: 300,
+                }}
               >
-                {panes.map((pane) => (
-                  <TabPane
-                    key={pane.id}
-                    tab={pane.name}
-                    style={{ margin: 0, width: '100%' }}
-                  >
-                    <div
-                      style={{                    
-                        backgroundColor: '#fff',
-                        borderBottomLeftRadius: 20,
-                        borderBottomRightRadius: 20,
-                        overflow: 'hidden',
+                <Row>
+                  <Col span={24}>
+                    <Form
+                      className="search-form"
+                      initialValues={{ keyword: '' }}
+                      onFinish={(data) => {
+                        onSearch(data.keyword || '', activeKey);
                       }}
                     >
-                      {pane.name.includes('gaml') && (
+                      <Form.Item name="keyword">
+                        <Input
+                          type="text"
+                          placeHolder="Search"
+                          className="search-input"
+                          width={20}
+                        />
+                      </Form.Item>
+                      <Button
+                        type="text"
+                        title="Search"
+                        htmlType="submit"
+                        shape="circle"
+                        className="search-button"
+                        icon={<SearchOutlined />}
+                      />
+                      <div className="search-option">
+                        <Tooltip title="Upload Project">
+                          <Button
+                            className="search-button_child"
+                            type="text"
+                            shape="circle"
+                            icon={<CloudUploadOutlined />}
+                            onClick={() =>
+                              setModal({
+                                type: 'UPLOAD_PROJECT',
+                                isOpen: true,
+                                id: null,
+                              })
+                            }
+                          />
+                        </Tooltip>
+                        <Tooltip title="Upload File">
+                          <Button
+                            className="search-button_child"
+                            type="text"
+                            shape="circle"
+                            icon={<FileAddOutlined />}
+                            onClick={() =>
+                              setModal({
+                                type: 'UPLOAD_FILE',
+                                isOpen: true,
+                                id: null,
+                              })
+                            }
+                          />
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <Button
+                            type="text"
+                            className="search-button_child"
+                            shape="circle"
+                            icon={<DeleteOutlined />}
+                            onClick={() =>
+                              setModal({
+                                type: 'DELETE',
+                                isOpen: true,
+                                id: null,
+                              })
+                            }
+                          />
+                        </Tooltip>
+                      </div>
+                    </Form>
+                  </Col>
+                </Row>
+                {projectTree.map((item, index) => {
+                  return (
+                    <SubMenu
+                      key={item.id}
+                      icon={<ProfileOutlined />}
+                      title={item.name}
+                    >
+                      <SubMenu
+                        key={'includes' + item.id}
+                        icon={<FolderOpenOutlined />}
+                        title="includes"
+                      >
+                        {item.includes.map((include) => (
+                          <Menu.Item
+                            key={include.id}
+                            icon={<FileTextOutlined />}
+                            onClick={() => onAddTabs(include.id)}
+                            onContextMenu={(e) =>
+                              handleRightClickFile(e, include.id)
+                            }
+                          >
+                            <Tooltip
+                              style={{ width: 'auto' }}
+                              title={include.filename}
+                            >
+                              {include.filename}
+                            </Tooltip>
+                          </Menu.Item>
+                        ))}
+                      </SubMenu>
+                      <SubMenu
+                        key={'models' + item.id}
+                        icon={<FolderOpenOutlined />}
+                        title="models"
+                      >
+                        {item.models.map((model) => (
+                          <Menu.Item
+                            key={model.id}
+                            icon={<FileTextOutlined />}
+                            onClick={() => onAddTabs(model.id)}
+                            onContextMenu={(e) =>
+                              handleRightClickFile(e, model.id)
+                            }
+                          >
+                            <Tooltip
+                              style={{ width: 'auto' }}
+                              title={model.filename}
+                            >
+                              {model.filename}
+                            </Tooltip>
+                          </Menu.Item>
+                        ))}
+                      </SubMenu>
+                    </SubMenu>
+                  );
+                })}
+              </Menu>
+            </Sider>
+          </Col>
+
+          <Content style={{ padding: '26px 35px 24px 355px', minHeight: 280 }}>
+            <Tabs
+              hideAdd
+              onChange={onChange}
+              activeKey={activeKey}
+              type="editable-card"
+              onEdit={onEdit}
+            >
+              {panes.map((pane) => (
+                <TabPane
+                  key={pane.id}
+                  tab={pane.name}
+                  style={{ margin: 0, width: '100%' }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: '#fff',
+                      borderBottomLeftRadius: 20,
+                      borderBottomRightRadius: 20,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {pane.name.includes('gaml') && (
+                      <React.Fragment>
                         <Button
                           type="primary"
                           style={{
@@ -723,8 +721,6 @@ const Edit = (props) => {
                         >
                           Exp
                         </Button>
-                      )}
-                      {pane.name.includes('gaml') && (
                         <Button
                           type="primary"
                           style={{
@@ -741,94 +737,94 @@ const Edit = (props) => {
                         >
                           Latest Result
                         </Button>
-                      )}
-                      {pane.isUpdate && (
-                        <Button
-                          type="success"
-                          style={{
-                            margin: '15px 10px',
-                          }}
-                          icon={<SaveOutlined style={{ fontSize: 15 }} />}
-                          onClick={() => {
-                            handleSaveFile(pane);
-                          }}
-                        >
-                          Save
-                        </Button>
-                      )}
-                      <div className="main-content">
-                        {pane.name.includes('csv') ? (
-                          pane.columns && pane.data ? (
-                            <Table
-                              components={{
-                                body: {
-                                  cell: EditableCell,
-                                  row: EditableRow,
-                                },
-                              }}
-                              size="small"
-                              pagination={false}
-                              rowClassName={() => 'editable-row'}
-                              bordered
-                              dataSource={pane.data}
-                              columns={pane.columns}
-                              scroll={{ y: '74vh' }}
-                            />
-                          ) : (
-                            <CodeMirror
-                              value={'Data not found'}
-                              height="80vh"
-                              style={{ userSelect: 'none' }}
-                              editable={false}
-                            />
-                          )
-                        ) : pane.type === 'image' ? (
-                          <div
-                            className="image-container"
-                            style={{
-                              height: '100%',
-                              display: 'flex',
+                      </React.Fragment>
+                    )}
+                    {pane.isUpdate && (
+                      <Button
+                        type="success"
+                        style={{
+                          margin: '15px 10px',
+                        }}
+                        icon={<SaveOutlined style={{ fontSize: 15 }} />}
+                        onClick={() => {
+                          handleSaveFile(pane);
+                        }}
+                      >
+                        Save
+                      </Button>
+                    )}
+                    <div className="main-content">
+                      {pane.name.includes('csv') ? (
+                        pane.columns && pane.data ? (
+                          <Table
+                            components={{
+                              body: {
+                                cell: EditableCell,
+                                row: EditableRow,
+                              },
                             }}
-                          >
-                            <img src={pane.content} alt={pane.name} />
-                          </div>
+                            size="small"
+                            pagination={false}
+                            rowClassName={() => 'editable-row'}
+                            bordered
+                            dataSource={pane.data}
+                            columns={pane.columns}
+                            scroll={{ y: '74vh' }}
+                          />
                         ) : (
                           <CodeMirror
-                            value={pane.content || ''}
+                            value={'Data not found'}
                             height="80vh"
-                            editable={editableListExt.includes(
-                              pane.name.split('.').pop(),
-                            )}
-                            onChange={(value, viewUpdate) => {
-                              const isChange =
-                                !pane.isOpen && !isEqual(value, pane.content);
-                              const paneTemp = panes.map((item) =>
-                                item.id === pane.id
-                                  ? {
-                                      ...item,
-                                      isUpdate: isChange,
-                                      isOpen: false,
-                                      tempContent: isChange
-                                        ? value
-                                        : pane.content,
-                                    }
-                                  : item,
-                              );
-                              setPanes(paneTemp);
-                            }}
                             style={{ userSelect: 'none' }}
+                            editable={false}
                           />
-                        )}
-                      </div>
+                        )
+                      ) : pane.type === 'image' ? (
+                        <div
+                          className="image-container"
+                          style={{
+                            height: '100%',
+                            display: 'flex',
+                          }}
+                        >
+                          <img src={pane.content} alt={pane.name} />
+                        </div>
+                      ) : (
+                        <CodeMirror
+                          value={pane.content || ''}
+                          height="80vh"
+                          editable={editableListExt.includes(
+                            pane.name.split('.').pop(),
+                          )}
+                          onChange={(value, viewUpdate) => {
+                            const isChange =
+                              !pane.isOpen && !isEqual(value, pane.content);
+                            const paneTemp = panes.map((item) =>
+                              item.id === pane.id
+                                ? {
+                                    ...item,
+                                    isUpdate: isChange,
+                                    isOpen: false,
+                                    tempContent: isChange
+                                      ? value
+                                      : pane.content,
+                                  }
+                                : item,
+                            );
+                            setPanes(paneTemp);
+                          }}
+                          style={{ userSelect: 'none' }}
+                        />
+                      )}
                     </div>
-                  </TabPane>
-                ))}
-              </Tabs>
-            </Content>
-          </Layout>
-        </Content>
-      </Layout>
-    </>
+                  </div>
+                </TabPane>
+              ))}
+            </Tabs>
+          </Content>
+        </Layout>
+      </Content>
+    </Layout>
   );
 };
 

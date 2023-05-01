@@ -18,6 +18,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { downloadSimulation, simulate } from '../../service/api';
 import addNotification, { NOTIFICATION_TYPE } from '../notification';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
+import { useSimulationContext } from '../simulation-context/SimulationContext';
 
 const Simulation = (props) => {
   const { id } = props.match.params;
@@ -36,7 +37,7 @@ const Simulation = (props) => {
   const [modal, setModal] = useState({ isOpen: false, type: '' });
   const [fps, setFPS] = useState(1);
   const [jump, setJump] = useState(2);
-
+  const { framerate, numberOfSimulation } = useSimulationContext();
   useEffect(() => {
     if (counter === 0) {
       history.push('/edit');
@@ -55,6 +56,8 @@ const Simulation = (props) => {
     formData.append('user_id', user.id);
     formData.append('simulation_id', id);
     formData.append('xmlfile', new File([inputXml.xml], 'input.xml'));
+    formData.append('framerate',framerate);
+    formData.append('number_of_simulation',numberOfSimulation);
     var max = 0;
     simulate(formData)
       .then((res) => {
@@ -312,7 +315,7 @@ const Simulation = (props) => {
                                           src="/image/plus.png"
                                           width={13}
                                           height={13}
-                                          alt=''
+                                          alt=""
                                         />
                                       </button>
                                     </Tooltip>
@@ -327,7 +330,7 @@ const Simulation = (props) => {
                                           src="/image/minus.png"
                                           width={13}
                                           height={13}
-                                          alt=''
+                                          alt=""
                                         />
                                       </button>
                                     </Tooltip>
@@ -345,7 +348,7 @@ const Simulation = (props) => {
                                           src="/image/target.png"
                                           width={15}
                                           height={15}
-                                          alt=''
+                                          alt=""
                                         />
                                       </button>
                                     </Tooltip>

@@ -7,6 +7,7 @@ import { Spin } from 'antd';
 import PageFooter from './component/edit-page/page-footer/PageFooter';
 import Header from './component/header/Header';
 import { getItem } from './utils';
+import { SimulationProvider } from './component/simulation-context/SimulationContext';
 const loggedIn = getItem('user');
 
 function App(props) {
@@ -44,11 +45,13 @@ function App(props) {
               </button>
             </div>
           )}
-          <Switch>
-            {router.map((item) => (
-              <Route exact path={item.path} component={item.component} />
-            ))}
-          </Switch>
+          <SimulationProvider>
+            <Switch>
+              {router.map((item) => (
+                <Route exact path={item.path} component={item.component} />
+              ))}
+            </Switch>
+          </SimulationProvider>
           <PageFooter />
         </Spin>
       </BrowserRouter>

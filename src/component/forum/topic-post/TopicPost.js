@@ -40,7 +40,7 @@ export default function TopicPost({ show, setShow }) {
           <Form.Item name="content">
             <TextArea className="main-input" placeholder="Enter the content" />
           </Form.Item>
-          <Form.Item name="category">
+          <Form.Item name="cate_id">
             <Select>
               {topicCategory.map((item) => (
                 <Select.Option value={item.id}>{item.name}</Select.Option>
