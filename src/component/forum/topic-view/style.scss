@@ -6,10 +6,20 @@
     border-radius: 20px;
     background-color: #fff;
     padding: 25px 30px;
-    .bookmark-icon {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+    .clickable-icon {
+        svg {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+        &.approved {
+            color: #1abf6e;
+        }
+        &.disapproved {
+            color: #f04c49;
+        }
     }
     .approve-button {
         position: absolute;
@@ -52,8 +62,14 @@
             background: #f0f2f5;
             border-radius: 15px;
             width: 100%;
-            border: none;
-            outline: none;
+            display: flex;
+            gap: 5px;
+            input {
+                border: none;
+                outline: none;
+                background: none;
+                flex: 1;
+            }
         }
     }
     .post-item-footer {
@@ -65,7 +81,7 @@
         padding-bottom: 5px;
         .comment-item {
             display: grid;
-            grid-template-columns: 30px 1fr;
+            grid-template-columns: 30px 1fr 1fr;
             padding: 10px 10px;
             align-items: center;
             background: #f0f2f5;

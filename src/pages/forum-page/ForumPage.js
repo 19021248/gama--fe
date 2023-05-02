@@ -12,6 +12,8 @@ import {
   getTopicsSelf,
   getTopicsBookmarked,
   getUser,
+  getAllUser,
+  getAllReply,
 } from '../../service/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -31,35 +33,36 @@ const viewModes = [
     value: 0,
     label: 'All',
     admin: true,
-    icon: faList
+    icon: faList,
   },
   {
     value: 1, // approved
     label: 'Home',
     admin: false,
-    icon: faHouseChimney
+    icon: faHouseChimney,
   },
   {
     value: 2,
     label: 'Queue',
     admin: true,
-    icon: faListCheck
+    icon: faListCheck,
   },
   {
     value: 3,
     label: 'My topics',
     admin: false,
-    icon: faComment
+    icon: faComment,
   },
   {
     value: 4,
     label: 'Bookmarked',
     admin: false,
-    icon: faBookmark
+    icon: faBookmark,
   },
 ];
 export default function ForumPage() {
   const isAdmin = true;
+  const postFreely = isAdmin || false;
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsloading] = useState(false);
   const [show, setShow] = useState(false);
@@ -68,13 +71,30 @@ export default function ForumPage() {
   const [comments, setComments] = useState([]);
   const [viewMode, setViewMode] = useState(0);
   const currentUser = getItem('user');
-
+  const [updateList, setUpdateList] = useState(false);
+  const [updateComment, setUpdateComment] = useState(false);
   // 0 view all
   // 1 view approved
   // 2 view not approved
   // 3 view self
   // 4 view bookmarked
+  const changeList = () => {
+    setUpdateList(!updateList);
+  };
+  const changeComment = () => {
+    setUpdateComment(!updateComment);
+  };
   const [filteredPost, setFilteredPost] = useState([]);
+  useEffect(() => {
+    getAllUser().then((res) => {
+      setUsers(res.data.users);
+    });
+  }, []);
+  useEffect(() => {
+    getAllReply().then((res) => {
+      setComments(res.data.replies);
+    });
+  }, [updateComment]);
   useEffect(() => {
     setIsloading(true);
     setTopic([]);
@@ -129,7 +149,7 @@ export default function ForumPage() {
       default:
         break;
     }
-  }, [viewMode]);
+  }, [viewMode, updateList]);
 
   useEffect(() => {
     const newForum = topic.filter((user) =>
@@ -181,6 +201,8 @@ export default function ForumPage() {
                 user={users}
                 comment={comments}
                 showApproval={(viewMode === 0 || viewMode === 2) && isAdmin}
+                changeList={changeList}
+                changeComment={changeComment}
               />
             </React.Fragment>
           ))
@@ -203,7 +225,12 @@ export default function ForumPage() {
           <div className="forum-sidebar-item">No user</div>
         )}
       </div>
-      <TopicPost show={show} setShow={setShow} />
+      <TopicPost
+        show={show}
+        setShow={setShow}
+        changeList={changeList}
+        postFreely={postFreely}
+      />
     </div>
   );
 }

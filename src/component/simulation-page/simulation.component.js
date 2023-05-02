@@ -40,14 +40,14 @@ const Simulation = (props) => {
   const { framerate, numberOfSimulation } = useSimulationContext();
   useEffect(() => {
     if (counter === 0) {
-      history.push('/edit');
+      history.push('simulation/edit');
     }
   }, [counter]);
 
   useEffect(() => {
     setLoading(true);
     if (!inputXml || !inputXml.xml || !inputXml.projectName) {
-      history.push('/edit');
+      history.push('simulation/edit');
       return;
     }
     const user = getItem('user');

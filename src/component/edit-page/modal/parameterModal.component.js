@@ -122,6 +122,15 @@ export const ParameterModal = (props) => {
             }}
           />
         </Form.Item>
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <Form.Item label="Width" name="width">
+            <Input type="number" placeholder="Enter number" />
+          </Form.Item>
+          <Form.Item label="Height" name="height">
+            <Input type="number" placeholder="Enter number" />
+          </Form.Item>
+        </div>
+
         <Descriptions title="Parameters" />
         <div
           className="param-section"

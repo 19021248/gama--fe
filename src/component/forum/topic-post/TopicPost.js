@@ -5,18 +5,26 @@ import { createTopic } from '../../../service/api/index';
 import TextArea from 'antd/lib/input/TextArea';
 import { topicCategory } from '../../../enum';
 import { getItem } from '../../../utils';
-export default function TopicPost({ show, setShow }) {
+export default function TopicPost({ show, setShow, changeList, postFreely }) {
   const [isSubmitting, setSubmitting] = useState(false);
+  const [form] = Form.useForm();
+
   const onFinish = (values) => {
     setSubmitting(true);
-    createTopic({ ...values, created_by: getItem('user')?.id, status: 0 })
+    createTopic({
+      ...values,
+      created_by: getItem('user')?.id,
+      status: postFreely ? 1 : 0,
+    })
       .then((res) => {})
       .catch((err) => {
         //addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
       })
       .finally(() => {
+        form.resetFields();
         setSubmitting(false);
         setShow(false);
+        changeList();
       });
   };
   return (
@@ -24,6 +32,7 @@ export default function TopicPost({ show, setShow }) {
       <div className="bg" onClick={() => setShow(false)}></div>
       <div className="post-body">
         <Form
+          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
@@ -42,8 +51,8 @@ export default function TopicPost({ show, setShow }) {
           </Form.Item>
           <Form.Item name="cate_id">
             <Select>
-              {topicCategory.map((item) => (
-                <Select.Option value={item.id}>{item.name}</Select.Option>
+              {topicCategory.map((item, index) => (
+                <Select.Option value={item.id} key={index}>{item.name}</Select.Option>
               ))}
             </Select>
           </Form.Item>

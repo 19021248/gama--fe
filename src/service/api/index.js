@@ -1,8 +1,8 @@
 import * as axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_HOST,
-  //baseURL: 'https://7122-2001-ee0-4141-ce71-2add-a6c8-1bdd-249b.ngrok-free.app',
+  // baseURL: process.env.REACT_APP_HOST,
+  baseURL: 'https://c6be-183-80-56-102.ngrok-free.app/',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -103,20 +103,38 @@ export const getTopicsUnapproved = (status) => {
 };
 // get self
 export const getTopicsSelf = (user_id) => {
-  return axiosInstance.get(`/api/forum?created_by=${user_id}`);
+  return axiosInstance.get(`/api/forum?created_by=${user_id}&user_id=0`);
 };
 // get bookmarked
 export const getTopicsBookmarked = (user_id) => {
-  return axiosInstance.get(`/api/forum?&user_id=${user_id}&bookmarked=1`);
+  return axiosInstance.get(`/api/forum?user_id=${user_id}&bookmarked=1`);
 };
 
 // topic reply
-export const commentTopic = (payload) => {
+export const replyTopic = (payload) => {
+  return axiosInstance.post('/api/forum/reply', payload);
+};
+export const getAllReply = (payload) => {
   return axiosInstance.get('/api/forum/reply', payload);
 };
 
 // topic approve
-
+export const approveTopic = (id) => {
+  return axiosInstance.put(`/api/forum/${id}?status=1`);
+};
 // topic disapprove
-
+export const disapproveTopic = (id) => {
+  return axiosInstance.put(`/api/forum/${id}?status=2`);
+};
 // topic bookmark
+export const bookmarkTopic = (topic_id, created_by) => {
+  return axiosInstance.put(`/api/forum/bookmark`, {
+    topic_id,
+    created_by,
+  });
+};
+
+// topic delete
+export const deleteTopic = (id) => {
+  return axiosInstance.delete(`/api/forum/${id}`);
+};

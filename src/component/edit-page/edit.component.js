@@ -329,11 +329,15 @@ const Edit = (props) => {
       until: data.until,
       experiment: data.experiment,
     };
+    console.log(data)
     const outputList = data.outputList.map((item, index) => ({
       ...item,
       id: index,
       framerate: data.framerate,
+      width: data.width,
+      height: data.height
     }));
+    console.log(outputList)
     const pj = projectTree.find((item) =>
       item.models.find((model) => model.id === modal.id),
     );

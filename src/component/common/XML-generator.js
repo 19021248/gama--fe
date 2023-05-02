@@ -18,6 +18,8 @@ export const XMLGenerator = (
       '@id': item?.id,
       '@name': item?.name,
       '@framerate': item?.framerate,
+      '@width': item?.width,
+      '@height': item?.height,
     },
   }));
   const obj = {

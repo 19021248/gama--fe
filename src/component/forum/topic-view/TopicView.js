@@ -5,29 +5,87 @@ import {
   faBookmark,
   faCircleCheck,
   faCircleXmark,
-
+  faPlane,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { UserAvatar } from '../../avatar/UserAvatar';
 import { getItem } from '../../../utils';
+import {
+  approveTopic,
+  bookmarkTopic,
+  deleteTopic,
+  disapproveTopic,
+  getUser,
+  replyTopic,
+} from '../../../service/api';
+import { useEffect } from 'react';
 
-export default function TopicView({ post, user, comment, showApproval }) {
-  const topicUser = user.find((user) => user?.id === post?.created_by);
+export default function TopicView({
+  post,
+  user,
+  comment,
+  showApproval,
+  changeList,
+  changeComment,
+}) {
+  const [topicUser, setTopicUser] = useState({});
+  const [commentContent, setCommentContent] = useState('');
+  useEffect(() => {
+    getUser(post?.created_by).then((res) => {
+      setTopicUser(res.data.user);
+    });
+  }, []);
+
   const currentUser = getItem('user');
   return (
     <div className="post-item">
-      <div>
-        <FontAwesomeIcon className="bookmark-icon" icon={faBookmark} />
-      </div>
-      {showApproval && (
-        <div className="approve-button">
-          <div>
-            <FontAwesomeIcon icon={faCircleCheck} />
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faCircleXmark} />
-          </div>
+      <div className="approve-button">
+        {showApproval && (
+          <>
+            <div
+              className={`clickable-icon ${post.status === 1 && 'approved'}`}
+              onClick={() => {
+                approveTopic(post.id).finally(() => {
+                  changeList();
+                });
+              }}
+            >
+              <FontAwesomeIcon icon={faCircleCheck} />
+            </div>
+            <div
+              className={`clickable-icon ${post.status === 2 && 'disapproved'}`}
+              onClick={() => {
+                disapproveTopic(post.id).finally(() => {
+                  changeList();
+                });
+              }}
+            >
+              <FontAwesomeIcon icon={faCircleXmark} />
+            </div>
+          </>
+        )}
+        <div
+          className="clickable-icon"
+          onClick={() => {
+            bookmarkTopic(post.id, currentUser.id);
+          }}
+        >
+          <FontAwesomeIcon icon={faBookmark} />
         </div>
-      )}
+        {showApproval && (
+          <div
+            className="clickable-icon"
+            onClick={() => {
+              deleteTopic(post.id).finally(() => {
+                changeList();
+              });
+            }}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </div>
+        )}
+      </div>
+
       <div className="post-item-header">{post.title}</div>
       <div className="post-item-subheader">
         <UserAvatar className="post-item-avatar" src={topicUser?.gavatar_num} />
@@ -36,17 +94,42 @@ export default function TopicView({ post, user, comment, showApproval }) {
         </div>
       </div>
       <div className="post-item-body">{post.content}</div>
+
       <div className="post-item-interact">
-        <input placeholder="Comments" className="interact-comment" />
+        <div class="interact-comment">
+          <input
+            placeholder="Comments"
+            value={commentContent}
+            onChange={(e) => {
+              setCommentContent(e.target.value);
+            }}
+          />
+          <div
+            className="commentSend"
+            onClick={() => {
+              replyTopic({
+                topic_id: post.id,
+                content: commentContent,
+                created_by: currentUser.id,
+              }).finally(() => {
+                setCommentContent('');
+                changeComment();
+              });
+            }}
+          >
+            <FontAwesomeIcon icon={faPlane} />
+          </div>
+        </div>
       </div>
+
       <div className="post-item-footer">
         {comment
           .filter((c) => c.topic_id === post.id)
-          .map((c) => (
-            <div className="comment-item">
+          .map((c, index) => (
+            <div className="comment-item" key={index}>
               <UserAvatar
                 className="comment-avatar"
-                src={user.find((user) => user.id === c.created_by)?.avatar}
+                src={user?.find((user) => user.id === c.created_by)?.avatar}
               />
               <div className="comment-content">{c.content}</div>
             </div>

@@ -12,6 +12,7 @@ import addNotification, { NOTIFICATION_TYPE } from '../notification';
 import { useHistory } from 'react-router-dom';
 import { regist } from '../../service/api';
 import { useState } from 'react';
+import { random } from 'lodash';
 
 export const Register = ({
   popup = false,
@@ -22,7 +23,7 @@ export const Register = ({
   const history = useHistory();
   const onFinish = (values) => {
     setLoading(true);
-    regist(values)
+    regist({ ...values, gavatar_num: random(0, 200) })
       .then((res) => {
         addNotification(
           'Create account successfully',
