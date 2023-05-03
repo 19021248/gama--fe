@@ -12,7 +12,7 @@ import {
   getTopicsSelf,
   getTopicsBookmarked,
   getUser,
-  getAllUser,
+  getAllUserList,
   getAllReply,
 } from '../../service/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,6 +28,7 @@ import {
 import TopicPost from '../../component/forum/topic-post/TopicPost';
 import TopicView from '../../component/forum/topic-view/TopicView';
 import { UserAvatar } from '../../component/avatar/UserAvatar';
+import { topicCategory } from '../../enum';
 const viewModes = [
   {
     value: 0,
@@ -73,6 +74,7 @@ export default function ForumPage() {
   const currentUser = getItem('user');
   const [updateList, setUpdateList] = useState(false);
   const [updateComment, setUpdateComment] = useState(false);
+  const [filteringCategory, setFilteringCategory] = useState(-1);
   // 0 view all
   // 1 view approved
   // 2 view not approved
@@ -86,7 +88,7 @@ export default function ForumPage() {
   };
   const [filteredPost, setFilteredPost] = useState([]);
   useEffect(() => {
-    getAllUser().then((res) => {
+    getAllUserList().then((res) => {
       setUsers(res.data.users);
     });
   }, []);
@@ -152,11 +154,13 @@ export default function ForumPage() {
   }, [viewMode, updateList]);
 
   useEffect(() => {
-    const newForum = topic.filter((user) =>
-      user.title.toLowerCase().includes(searchText.toLowerCase()),
+    const newForum = topic.filter(
+      (user) =>
+        user.title.toLowerCase().includes(searchText.toLowerCase()) &&
+        (user.cate_id === filteringCategory || filteringCategory === -1),
     );
     setFilteredPost(newForum);
-  }, [searchText, topic]);
+  }, [searchText, topic, filteringCategory]);
 
   return (
     <div className="forum-container">
@@ -190,7 +194,36 @@ export default function ForumPage() {
             <FontAwesomeIcon icon={faPlus} />
           </div>
         </div>
-
+        <Select
+          onChange={(e) => {
+            console.log(e);
+            setFilteringCategory(e);
+          }}
+          value={filteringCategory}
+        >
+          {[
+            {
+              id: -1,
+              name: 'All',
+              color: '#000000',
+              descriptiion: 'All topic',
+            },
+            ...topicCategory,
+          ].map((item, index) => (
+            <Select.Option
+              style={{
+                backgroundColor: item.color,
+                color: 'white',
+                width: '50%',
+                borderRadius: 20,
+              }}
+              value={item.id}
+              key={index}
+            >
+              {item.name}
+            </Select.Option>
+          ))}
+        </Select>
         {isLoading ? (
           <div>Loading</div>
         ) : filteredPost.length > 0 ? (

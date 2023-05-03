@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 const axiosInstance = axios.create({
   // baseURL: process.env.REACT_APP_HOST,
-  baseURL: 'https://c6be-183-80-56-102.ngrok-free.app/',
+  baseURL: 'https://e42e-183-80-56-102.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -44,8 +44,12 @@ export const deletePj = (payload) => {
 export const getUser = (id) => {
   return axiosInstance.get(`/api/user/${id}`);
 };
-export const getAllUser = (id) => {
+export const getAllUserList = () => {
   return axiosInstance.get(`/api/user?over_view=1`);
+};
+
+export const getAllUser = () => {
+  return axiosInstance.get(`/api/user`);
 };
 
 export const updateUser = (id, payload) => {
@@ -117,7 +121,9 @@ export const replyTopic = (payload) => {
 export const getAllReply = (payload) => {
   return axiosInstance.get('/api/forum/reply', payload);
 };
-
+export const deleteReply = (id) => {
+  return axiosInstance.delete(`/api/forum/reply/${id}`);
+};
 // topic approve
 export const approveTopic = (id) => {
   return axiosInstance.put(`/api/forum/${id}?status=1`);

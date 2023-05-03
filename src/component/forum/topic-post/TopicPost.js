@@ -5,6 +5,8 @@ import { createTopic } from '../../../service/api/index';
 import TextArea from 'antd/lib/input/TextArea';
 import { topicCategory } from '../../../enum';
 import { getItem } from '../../../utils';
+import addNotification, { NOTIFICATION_TYPE } from '../../notification';
+
 export default function TopicPost({ show, setShow, changeList, postFreely }) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
@@ -21,6 +23,7 @@ export default function TopicPost({ show, setShow, changeList, postFreely }) {
         //addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
       })
       .finally(() => {
+        addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
         form.resetFields();
         setSubmitting(false);
         setShow(false);
@@ -52,7 +55,19 @@ export default function TopicPost({ show, setShow, changeList, postFreely }) {
           <Form.Item name="cate_id">
             <Select>
               {topicCategory.map((item, index) => (
-                <Select.Option value={item.id} key={index}>{item.name}</Select.Option>
+                <Select.Option
+                  onClick={() => console.log(item)}
+                  style={{
+                    backgroundColor: item.color,
+                    color: 'white',
+                    width: '50%',
+                    borderRadius: 20,
+                  }}
+                  value={item.id}
+                  key={index}
+                >
+                  {item.name}
+                </Select.Option>
               ))}
             </Select>
           </Form.Item>

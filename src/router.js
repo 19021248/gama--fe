@@ -17,6 +17,7 @@ import InitiativeTeamPage from './pages/initiative_pages/InitiativeTeamPage';
 import InitiativeResourcePage from './pages/initiative_pages/InitiativeResourcePage';
 import NotFoundPage from './pages/not-found-page/NotFoundPage';
 import ForumPage from './pages/forum-page/ForumPage';
+import AccountListPage from './pages/account-list-page/AccountListPage';
 export const router = [
   // Old router
   {
@@ -105,10 +106,15 @@ export const router = [
     component: AccountPage,
   },
   {
+    name: 'user-management',
+    path: '/admin/users',
+    component: AccountListPage,
+  },
+  {
     name: 'user',
     path: '/user/logout',
     component: LogOutPage,
-  },  
+  },
   {
     name: 'forum',
     path: '/forum',

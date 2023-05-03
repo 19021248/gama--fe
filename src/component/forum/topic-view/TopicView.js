@@ -14,6 +14,7 @@ import { getItem } from '../../../utils';
 import {
   approveTopic,
   bookmarkTopic,
+  deleteReply,
   deleteTopic,
   disapproveTopic,
   getUser,
@@ -73,7 +74,7 @@ export default function TopicView({
         >
           <FontAwesomeIcon icon={faBookmark} />
         </div>
-        {showApproval && (
+        {(showApproval || post.created_by === currentUser?.id) && (
           <div
             className="clickable-icon"
             onClick={() => {
@@ -133,6 +134,18 @@ export default function TopicView({
                 src={user?.find((user) => user.id === c.created_by)?.avatar}
               />
               <div className="comment-content">{c.content}</div>
+              {(showApproval || c.created_by === currentUser?.id) && (
+                <div
+                  className="delete-comment"
+                  onClick={() => {
+                    deleteReply(c.id).finally(() => {
+                      changeComment();
+                    });
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </div>
+              )}
             </div>
           ))}
       </div>

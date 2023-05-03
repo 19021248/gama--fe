@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { getItem } from '../../utils';
 import './style.scss';
 import { getUser, updateUser } from '../../service/api';
+import { UserAvatar } from '../../component/avatar/UserAvatar';
 const profession = [
   {
     name: 'User',
@@ -83,7 +84,7 @@ export default function AccountPage() {
                 <Input className="main-input" placeholder="1999-01-01" />
               </Form.Item>
               <div className="gender-ava">
-                <Avatar size={90} icon={<UserOutlined />} />
+                <UserAvatar src={userInfo?.gavatar_num} />
                 Gender
                 <Form.Item name="gender">
                   <Select>
