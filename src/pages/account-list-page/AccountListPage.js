@@ -53,7 +53,6 @@ export default function AccountListPage() {
             <div className="account-action">
               <div
                 onClick={() => {
-                  console.log(userList)
                   updateUser(item.id, { role: item.role }).then((res) => {
                     console.log(res);
                   });
