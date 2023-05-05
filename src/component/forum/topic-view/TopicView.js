@@ -6,6 +6,7 @@ import {
   faCircleCheck,
   faCircleXmark,
   faPaperPlane,
+  faPencil,
   faPlane,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +22,7 @@ import {
   replyTopic,
 } from '../../../service/api';
 import { useEffect } from 'react';
+import TopicPost from '../topic-post/TopicPost';
 
 export default function TopicView({
   post,
@@ -29,6 +31,7 @@ export default function TopicView({
   showApproval,
   changeList,
   changeComment,
+  setEditContent
 }) {
   const [topicUser, setTopicUser] = useState({});
   const [commentContent, setCommentContent] = useState('');
@@ -75,16 +78,26 @@ export default function TopicView({
           <FontAwesomeIcon icon={faBookmark} />
         </div>
         {(showApproval || post.created_by === currentUser?.id) && (
-          <div
-            className="clickable-icon"
-            onClick={() => {
-              deleteTopic(post.id).finally(() => {
-                changeList();
-              });
-            }}
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </div>
+          <React.Fragment>
+            <div
+              className="clickable-icon"
+              onClick={() => {
+                deleteTopic(post.id).finally(() => {
+                  changeList();
+                });
+              }}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </div>
+            <div
+              className="clickable-icon"
+              onClick={() => {
+                setEditContent(post);
+              }}
+            >
+              <FontAwesomeIcon icon={faPencil} />
+            </div>
+          </React.Fragment>
         )}
       </div>
 
@@ -135,16 +148,18 @@ export default function TopicView({
               />
               <div className="comment-content">{c.content}</div>
               {(showApproval || c.created_by === currentUser?.id) && (
-                <div
-                  className="delete-comment"
-                  onClick={() => {
-                    deleteReply(c.id).finally(() => {
-                      changeComment();
-                    });
-                  }}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </div>
+                <React.Fragment>
+                  <div
+                    className="delete-comment"
+                    onClick={() => {
+                      deleteReply(c.id).finally(() => {
+                        changeComment();
+                      });
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </div>
+                </React.Fragment>
               )}
             </div>
           ))}

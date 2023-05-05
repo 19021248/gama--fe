@@ -60,6 +60,10 @@ export const ParameterModal = (props) => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 14 }}
         labelAlign="left"
+        initialValues={{
+          width: 1200,
+          height: 800,
+        }}
       >
         <Descriptions title="Simulation" />
         <Form.Item

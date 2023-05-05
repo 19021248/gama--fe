@@ -1,54 +1,91 @@
 import React, { useState } from 'react';
 import './style.scss';
 import { Button, Form, Input, Select } from 'antd';
-import { createTopic } from '../../../service/api/index';
+import { createTopic, editTopic } from '../../../service/api/index';
 import TextArea from 'antd/lib/input/TextArea';
 import { topicCategory } from '../../../enum';
 import { getItem } from '../../../utils';
 import addNotification, { NOTIFICATION_TYPE } from '../../notification';
 
-export default function TopicPost({ show, setShow, changeList, postFreely }) {
+export default function TopicPost({
+  show,
+  setShow,
+  changeList,
+  postFreely,
+  editContent,
+  setEditContent
+}) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
     setSubmitting(true);
-    createTopic({
-      ...values,
-      created_by: getItem('user')?.id,
-      status: postFreely ? 1 : 0,
-    })
-      .then((res) => {})
-      .catch((err) => {
-        //addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
-      })
-      .finally(() => {
+    if (!editContent) {
+      createTopic({
+        ...values,
+        created_by: getItem('user')?.id,
+        status: postFreely ? 1 : 0,
+      }).finally(() => {
         addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
         form.resetFields();
         setSubmitting(false);
         setShow(false);
         changeList();
       });
+    } else {
+      editTopic(editContent.id, {
+        ...values,
+      })
+        .then((res) => {})
+        .catch((err) => {
+          //addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
+        })
+        .finally(() => {
+          addNotification(
+            'Your post have been edited',
+            NOTIFICATION_TYPE.SUCCESS,
+          );
+          form.resetFields();
+          setSubmitting(false);
+          setShow(false);
+          changeList();
+          setEditContent(null);
+        });
+    }
   };
   return (
     <div className={`${!show && 'hidden'} topic-post-modal`}>
-      <div className="bg" onClick={() => setShow(false)}></div>
+      <div
+        className="bg"
+        onClick={() => {
+          setShow(false);
+          setEditContent(null);
+        }}
+      ></div>
       <div className="post-body">
         <Form
           form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
+          initialValues={
+            editContent !== null
+              ? {
+                  title: editContent.title,
+                  content: editContent.content,
+                  cate_id: editContent.cate_id,
+                }
+              : { remember: true }
+          }
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical"
         >
-          title
+          Title
           <Form.Item name="title">
             <Input className="main-input" placeholder="Enter your post title" />
           </Form.Item>
-          content
+          Content
           <Form.Item name="content">
             <TextArea className="main-input" placeholder="Enter the content" />
           </Form.Item>

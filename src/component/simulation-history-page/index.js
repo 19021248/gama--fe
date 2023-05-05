@@ -314,8 +314,6 @@ const SimulationHistory = (props) => {
                                   <img
                                     src={(imageUrl[pane.name] || [])[index]}
                                     alt="test"
-                                    width={500}
-                                    height={500}
                                   />
                                 </TransformComponent>
                                 <div className="tools">

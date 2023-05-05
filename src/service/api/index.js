@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 const axiosInstance = axios.create({
   // baseURL: process.env.REACT_APP_HOST,
-  baseURL: 'https://e42e-183-80-56-102.ngrok-free.app',
+  baseURL: 'https://b5b6-183-80-56-102.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -92,6 +92,10 @@ export const deleteFile = (id) => {
 export const createTopic = (payload) => {
   return axiosInstance.post('/api/forum', payload);
 };
+// edit topic
+export const editTopic = (id, payload) => {
+  return axiosInstance.put(`/api/forum/${id}`, payload);
+};
 
 // get all unfiltered 0
 export const getTopicsAll = () => {
@@ -134,7 +138,7 @@ export const disapproveTopic = (id) => {
 };
 // topic bookmark
 export const bookmarkTopic = (topic_id, created_by) => {
-  return axiosInstance.put(`/api/forum/bookmark`, {
+  return axiosInstance.post(`/api/forum/bookmark`, {
     topic_id,
     created_by,
   });
@@ -144,3 +148,19 @@ export const bookmarkTopic = (topic_id, created_by) => {
 export const deleteTopic = (id) => {
   return axiosInstance.delete(`/api/forum/${id}`);
 };
+
+export const createResearch = (payload) => {
+  return axiosInstance.post('/api/research', payload);
+};
+// edit research
+export const editResearch = (id, payload) => {
+  return axiosInstance.put(`/api/research/${id}`, payload);
+}
+// get all unfiltered 0
+export const getResearchAll = () => {
+  return axiosInstance.get('/api/research?user_id=0');
+}
+// get research id
+export const getResearchId = (id) => {
+  return axiosInstance.get(`/api/research/${id}`);
+}

@@ -62,8 +62,10 @@ const viewModes = [
   },
 ];
 export default function ForumPage() {
-  const isAdmin = true;
-  const postFreely = isAdmin || false;
+  const currentUser = getItem('user');
+
+  const isAdmin = currentUser?.role === 1;
+  const postFreely = isAdmin || currentUser?.role === 2;
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsloading] = useState(false);
   const [show, setShow] = useState(false);
@@ -71,10 +73,10 @@ export default function ForumPage() {
   const [users, setUsers] = useState([]);
   const [comments, setComments] = useState([]);
   const [viewMode, setViewMode] = useState(0);
-  const currentUser = getItem('user');
   const [updateList, setUpdateList] = useState(false);
   const [updateComment, setUpdateComment] = useState(false);
   const [filteringCategory, setFilteringCategory] = useState(-1);
+  const [editContent, setEditContent] = useState(null);
   // 0 view all
   // 1 view approved
   // 2 view not approved
@@ -163,107 +165,116 @@ export default function ForumPage() {
   }, [searchText, topic, filteringCategory]);
 
   return (
-    <div className="forum-container">
-      <div className="forum-sidebar-left">
-        <div className="forum-sidebar-item search">
-          <FontAwesomeIcon icon={faSearch} />
-          <input
-            className="post-search"
-            placeholder="Search"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-        </div>
-        {viewModes.map(
-          (item) =>
-            ((item.admin && isAdmin) || !item.admin) && (
-              <div
-                className="forum-sidebar-item"
-                onClick={() => setViewMode(item.value)}
-              >
-                <FontAwesomeIcon icon={item.icon} />
-                {item.label}
-              </div>
-            ),
-        )}
-      </div>
-      <div className="forum-body">
-        <div className="post-create">
-          <input className="post-create-input" placeholder="Title" />
-          <div className="post-button" onClick={() => setShow(true)}>
-            <FontAwesomeIcon icon={faPlus} />
+    <React.Fragment>
+      <div className="forum-container">
+        <div className="forum-sidebar-left">
+          <div className="forum-sidebar-item search">
+            <FontAwesomeIcon icon={faSearch} />
+            <input
+              className="post-search"
+              placeholder="Search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
           </div>
+          {viewModes.map(
+            (item) =>
+              ((item.admin && isAdmin) || !item.admin) && (
+                <div
+                  className={`forum-sidebar-item ${
+                    item.value === viewMode ? 'active' : ''
+                  }}`}
+                  onClick={() => setViewMode(item.value)}
+                >
+                  <FontAwesomeIcon icon={item.icon} />
+                  {item.label}
+                </div>
+              ),
+          )}
         </div>
-        <Select
-          onChange={(e) => {
-            console.log(e);
-            setFilteringCategory(e);
-          }}
-          value={filteringCategory}
-        >
-          {[
-            {
-              id: -1,
-              name: 'All',
-              color: '#000000',
-              descriptiion: 'All topic',
-            },
-            ...topicCategory,
-          ].map((item, index) => (
-            <Select.Option
-              style={{
-                backgroundColor: item.color,
-                color: 'white',
-                width: '50%',
-                borderRadius: 20,
-              }}
-              value={item.id}
-              key={index}
-            >
-              {item.name}
-            </Select.Option>
-          ))}
-        </Select>
-        {isLoading ? (
-          <div>Loading</div>
-        ) : filteredPost.length > 0 ? (
-          filteredPost.map((post, index) => (
-            <React.Fragment key={index}>
-              <TopicView
-                post={post}
-                user={users}
-                comment={comments}
-                showApproval={(viewMode === 0 || viewMode === 2) && isAdmin}
-                changeList={changeList}
-                changeComment={changeComment}
-              />
-            </React.Fragment>
-          ))
-        ) : (
-          <div>No content</div>
-        )}
-      </div>
-      <div className="forum-sidebar-right">
-        {users.length > 0 ? (
-          users.map((user, index) => (
-            <div className="forum-sidebar-item" key={index}>
-              <UserAvatar
-                src={user?.avatar}
-                className="forum-sidebar-item-avatar"
-              />
-              <div className="forum-sidebar-item-name">{user?.name}</div>
+        <div className="forum-body">
+          <div className="post-create">
+            <input className="post-create-input" placeholder="Title" />
+            <div className="post-button" onClick={() => setShow(true)}>
+              <FontAwesomeIcon icon={faPlus} />
             </div>
-          ))
-        ) : (
-          <div className="forum-sidebar-item">No user</div>
-        )}
+          </div>
+          <Select
+            onChange={(e) => {
+              console.log(e);
+              setFilteringCategory(e);
+            }}
+            value={filteringCategory}
+          >
+            {[
+              {
+                id: -1,
+                name: 'All',
+                color: '#000000',
+                descriptiion: 'All topic',
+              },
+              ...topicCategory,
+            ].map((item, index) => (
+              <Select.Option
+                style={{
+                  backgroundColor: item.color,
+                  color: 'white',
+                  width: '50%',
+                  borderRadius: 20,
+                }}
+                value={item.id}
+                key={index}
+              >
+                {item.name}
+              </Select.Option>
+            ))}
+          </Select>
+          {isLoading ? (
+            <div>Loading</div>
+          ) : filteredPost.length > 0 ? (
+            filteredPost.map((post, index) => (
+              <React.Fragment key={index}>
+                <TopicView
+                  post={post}
+                  user={users}
+                  comment={comments}
+                  showApproval={(viewMode === 0 || viewMode === 2) && isAdmin}
+                  changeList={changeList}
+                  changeComment={changeComment}
+                  setEditContent={setEditContent}
+                />
+              </React.Fragment>
+            ))
+          ) : (
+            <div>No content</div>
+          )}
+        </div>
+        <div className="forum-sidebar-right">
+          {users.length > 0 ? (
+            users.map((user, index) => (
+              <div className="forum-sidebar-item" key={index}>
+                <UserAvatar
+                  src={user?.avatar}
+                  className="forum-sidebar-item-avatar"
+                />
+                <div className="forum-sidebar-item-name">{user?.name}</div>
+              </div>
+            ))
+          ) : (
+            <div className="forum-sidebar-item">No user</div>
+          )}
+        </div>
       </div>
-      <TopicPost
-        show={show}
-        setShow={setShow}
-        changeList={changeList}
-        postFreely={postFreely}
-      />
-    </div>
+      {(show || editContent !== null) && (
+        <TopicPost
+          show={show || editContent !== null}
+          setShow={setShow}
+          changeList={changeList}
+          postFreely={postFreely}
+          setEditContent={setEditContent}
+          editContent={editContent}
+        />
+      )}
+    </React.Fragment>
   );
 }
