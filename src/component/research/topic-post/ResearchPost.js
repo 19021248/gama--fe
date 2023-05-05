@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './style.scss';
 import { Button, Form, Input, Select } from 'antd';
-import {
-  createResearch,
-  createTopic,
-  editTopic,
-} from '../../../service/api/index';
-import TextArea from 'antd/lib/input/TextArea';
-import { topicCategory } from '../../../enum';
+import { createResearch, editResearch } from '../../../service/api/index';
+import { researchCategory } from '../../../enum';
+
 import { getItem } from '../../../utils';
 import addNotification, { NOTIFICATION_TYPE } from '../../notification';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { $getRoot, $getSelection } from 'lexical';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 
-import { lexiTheme } from './LexiTheme';
+import { CKEditor } from 'ckeditor4-react';
+
 export default function ResearchPost({
   show,
   setShow,
@@ -30,58 +18,36 @@ export default function ResearchPost({
   setEditContent,
 }) {
   const [isSubmitting, setSubmitting] = useState(false);
-  const [form] = Form.useForm();
-  const [content, setContent] = useState('');
-  function onChange(editorState) {
-    editorState.read(() => {
-      // Read the contents of the EditorState here.
-      const root = $getRoot();
-      const selection = $getSelection();
+  const [content, setContent] = useState(editContent?.content ?? '');
 
-      console.log(root, selection);
-      setContent(root.innerHTML);
-    });
-  }
   const onFinish = (values) => {
     setSubmitting(true);
-    createResearch({
-      ...values,
-      created_by: getItem('user')?.id,
-      content: content,
-    }).finally(() => {
-      addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
-      form.resetFields();
-      setSubmitting(false);
-      setShow(false);
-      changeList();
-    });
-  };
-  function MyCustomAutoFocusPlugin() {
-    const [editor] = useLexicalComposerContext();
-
-    useEffect(() => {
-      // Focus the editor when the effect fires!
-      editor.focus();
-    }, [editor]);
-
-    return null;
-  }
-
-  // Catch any errors that occur during Lexical updates and log them
-  // or throw them as needed. If you don't throw them, Lexical will
-  // try to recover gracefully without losing user data.
-  function onError(error) {
-    console.error(error);
-  }
-
-  const initialConfig = {
-    namespace: 'MyEditor',
-    lexiTheme,
-    onError,
+    if (!editContent) {
+      createResearch({
+        ...values,
+        created_by: getItem('user')?.id,
+        content: content,
+      }).finally(() => {
+        addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
+        setSubmitting(false);
+        setShow(false);
+        changeList();
+      });
+    } else {
+      editResearch(editContent.id, {
+        ...values,
+        content: content,
+      }).finally(() => {
+        addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
+        setSubmitting(false);
+        setShow(false);
+        changeList();
+      });
+    }
   };
 
   return (
-    <div className={`${!show && 'hidden'} topic-post-modal`}>
+    <div className={`${!show && 'hidden'} research-post-modal`}>
       <div
         className="bg"
         onClick={() => {
@@ -91,14 +57,13 @@ export default function ResearchPost({
       ></div>
       <div className="post-body">
         <Form
-          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           initialValues={
             editContent !== null
               ? {
-                  title: editContent.title,
+                  name: editContent.name,
                   content: editContent.content,
                   cate_id: editContent.cate_id,
                 }
@@ -109,27 +74,22 @@ export default function ResearchPost({
           layout="vertical"
         >
           Title
-          <Form.Item name="title">
+          <Form.Item name="name">
             <Input className="main-input" placeholder="Enter your post title" />
           </Form.Item>
           Content
           <Form.Item name="content">
-            <LexicalComposer initialConfig={initialConfig}>
-              <RichTextPlugin
-                contentEditable={
-                  <ContentEditable className="SKEditor__content" />
-                }
-                placeholder={<div>Enter some text...</div>}
-                ErrorBoundary={LexicalErrorBoundary}
-              />
-              <OnChangePlugin onChange={onChange} />
-              <HistoryPlugin />
-              <MyCustomAutoFocusPlugin />
-            </LexicalComposer>
+            <CKEditor
+              style={{ width: '100%' }}
+              initData={editContent?.content ?? ''}
+              onChange={(e) => {
+                setContent(e.editor.getData());
+              }}
+            />
           </Form.Item>
           <Form.Item name="cate_id">
             <Select>
-              {topicCategory.map((item, index) => (
+              {researchCategory.map((item, index) => (
                 <Select.Option
                   onClick={() => console.log(item)}
                   style={{

@@ -84,7 +84,7 @@ export default function AccountPage() {
                 <Input className="main-input" placeholder="1999-01-01" />
               </Form.Item>
               <div className="gender-ava">
-                <UserAvatar src={userInfo?.gavatar_num} />
+                <UserAvatar src={userInfo?.id} />
                 Gender
                 <Form.Item name="gender">
                   <Select>

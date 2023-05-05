@@ -1,8 +1,8 @@
 import * as axios from 'axios';
 
 const axiosInstance = axios.create({
-  // baseURL: process.env.REACT_APP_HOST,
-  baseURL: 'https://b5b6-183-80-56-102.ngrok-free.app',
+  baseURL: process.env.REACT_APP_HOST,
+  // baseURL: 'https://3095-42-113-171-34.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -155,12 +155,16 @@ export const createResearch = (payload) => {
 // edit research
 export const editResearch = (id, payload) => {
   return axiosInstance.put(`/api/research/${id}`, payload);
-}
+};
 // get all unfiltered 0
 export const getResearchAll = () => {
   return axiosInstance.get('/api/research?user_id=0');
-}
+};
 // get research id
 export const getResearchId = (id) => {
   return axiosInstance.get(`/api/research/${id}`);
-}
+};
+// delete research
+export const deleteResearch = (id) => {
+  return axiosInstance.delete(`/api/research/${id}`);
+};

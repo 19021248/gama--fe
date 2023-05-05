@@ -144,7 +144,7 @@ export default function TopicView({
             <div className="comment-item" key={index}>
               <UserAvatar
                 className="comment-avatar"
-                src={user?.find((user) => user.id === c.created_by)?.avatar}
+                src={user?.find((user) => user.id === c.created_by)?.id}
               />
               <div className="comment-content">{c.content}</div>
               {(showApproval || c.created_by === currentUser?.id) && (

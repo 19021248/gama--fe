@@ -33,7 +33,7 @@ export const topicCategory = [
 export const userRole = [
   {
     id: 0,
-    name: 'User', 
+    name: 'User',
     description: 'Normal User',
     color: '#0872af',
   },
@@ -48,5 +48,43 @@ export const userRole = [
     name: 'Approved Poster',
     description: 'People who countribute nicely',
     color: '#f74d6c',
+  },
+];
+export const researchCategory = [
+  {
+    id: 0,
+    name: 'Engineering',
+    description: 'engineering',
+    color: '#0872af',
+  },
+  {
+    id: 1,
+    name: 'Medical',
+    description: 'medical',
+    color: '#5cb5dd',
+  },
+  {
+    id: 2,
+    name: 'Education',
+    description: 'education',
+    color: '#615684',
+  },
+  {
+    id: 3,
+    name: 'Finance',
+    description: 'finance',
+    color: '#628c89',
+  },
+  {
+    id: 4,
+    name: 'Biology',
+    description: 'Biology',
+    color: '#339c25',
+  },
+  {
+    id: 5,
+    name: 'Management',
+    description: 'management',
+    color: '#c9627b',
   },
 ];

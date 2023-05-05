@@ -14,6 +14,7 @@ import {
   getUser,
   getAllUserList,
   getAllReply,
+  getAllUser,
 } from '../../service/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -90,7 +91,7 @@ export default function ForumPage() {
   };
   const [filteredPost, setFilteredPost] = useState([]);
   useEffect(() => {
-    getAllUserList().then((res) => {
+    getAllUser().then((res) => {
       setUsers(res.data.users);
     });
   }, []);

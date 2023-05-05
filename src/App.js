@@ -47,8 +47,13 @@ function App(props) {
           )}
           <SimulationProvider>
             <Switch>
-              {router.map((item) => (
-                <Route exact path={item.path} component={item.component} />
+              {router.map((item, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={item.path}
+                  component={item.component}
+                />
               ))}
             </Switch>
           </SimulationProvider>

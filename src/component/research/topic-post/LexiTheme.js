@@ -1,3 +1,5 @@
+
+import './LexiTheme.scss';
 export const lexiTheme = {
   blockCursor: 'SKEditorTheme__blockCursor',
   characterLimit: 'SKEditorTheme__characterLimit',

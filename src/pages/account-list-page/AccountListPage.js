@@ -35,7 +35,7 @@ export default function AccountListPage() {
         </div>
         {userList.map((item, index) => (
           <div className="account-item">
-            <UserAvatar size={64} user={item} />
+            <UserAvatar size={64} user={item.id} />
             <div className="account-name">{item.name}</div>
             <div className="account-email">{item.email}</div>
             <select
