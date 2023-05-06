@@ -144,7 +144,7 @@ export default function ResearchPage() {
               ))}
             {fileredResearchs?.length > 1 && (
               <Paginator
-                length={fileredResearchs.length}
+                length={fileredResearchs?.length}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
