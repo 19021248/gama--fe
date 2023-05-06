@@ -5,7 +5,7 @@ const Paginator = ({ length, currentPage, setCurrentPage }) => {
     <div className="paginator middle">
       <div className="pagination">
         <ul>
-          {Array(length)
+          {Array(Math.max(length, 1))
             .fill(0)
             .map((_, index) => (
               <li
