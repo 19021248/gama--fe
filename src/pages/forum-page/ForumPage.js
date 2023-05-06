@@ -261,6 +261,7 @@ export default function ForumPage() {
                       showApproval={
                         (viewMode === 0 || viewMode === 2) && isAdmin
                       }
+                      isAdmin={isAdmin}
                       changeList={changeList}
                       changeComment={changeComment}
                       setEditContent={setEditContent}

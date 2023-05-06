@@ -22,9 +22,21 @@ export default function Dashboard() {
     setLabel1 = null,
     setLabel2 = null,
   ) => {
+    const typeF = () => {
+      switch (type) {
+        case 1:
+          return 'Histogram';
+        case 2:
+          return 'Pie';
+        case 3:
+          return 'Line';
+        default:
+          return '';
+      }
+    };
     return (
       <div className="chart-data-create">
-        Chartname
+        {typeF()}
         <input
           className="main-input dimmed"
           defaultValue={title}

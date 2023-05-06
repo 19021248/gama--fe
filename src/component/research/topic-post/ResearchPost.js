@@ -91,14 +91,14 @@ export default function ResearchPost({
           autoComplete="off"
           layout="vertical"
         >
-          Title
+          <h2>Title</h2>
           <Form.Item
             name="name"
             rules={[{ required: true, message: 'Can not be empty!' }]}
           >
             <Input className="main-input" placeholder="Enter your post title" />
           </Form.Item>
-          Content
+          <h2>Content</h2>
           <Form.Item name="content">
             <CKEditor
               style={{ width: '100%' }}

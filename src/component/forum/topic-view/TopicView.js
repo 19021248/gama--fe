@@ -29,6 +29,7 @@ export default function TopicView({
   showApproval,
   changeList,
   changeComment,
+  isAdmin,
   setEditContent,
   bookmarkList,
 }) {
@@ -150,7 +151,7 @@ export default function TopicView({
         >
           <FontAwesomeIcon icon={faBookmark} />
         </div>
-        {(showApproval || post.created_by === currentUser?.id) && (
+        {(isAdmin || post.created_by === currentUser?.id) && (
           <React.Fragment>
             <div
               className="clickable-icon"
