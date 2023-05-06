@@ -27,22 +27,40 @@ export default function ResearchPost({
         ...values,
         created_by: getItem('user')?.id,
         content: content,
-      }).finally(() => {
-        addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
-        setSubmitting(false);
-        setShow(false);
-        changeList();
-      });
+      })
+        .then((res) => {
+          addNotification(
+            'Research have been published',
+            NOTIFICATION_TYPE.SUCCESS,
+          );
+        })
+        .catch((err) => {
+          addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+        })
+        .finally(() => {
+          setSubmitting(false);
+          setShow(false);
+          changeList();
+        });
     } else {
       editResearch(editContent.id, {
         ...values,
         content: content,
-      }).finally(() => {
-        addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
-        setSubmitting(false);
-        setShow(false);
-        changeList();
-      });
+      })
+        .then((res) => {
+          addNotification(
+            'Selected research have been edited',
+            NOTIFICATION_TYPE.SUCCESS,
+          );
+        })
+        .catch((err) => {
+          addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+        })
+        .finally(() => {
+          setSubmitting(false);
+          setShow(false);
+          changeList();
+        });
     }
   };
 
@@ -74,7 +92,10 @@ export default function ResearchPost({
           layout="vertical"
         >
           Title
-          <Form.Item name="name">
+          <Form.Item
+            name="name"
+            rules={[{ required: true, message: 'Can not be empty!' }]}
+          >
             <Input className="main-input" placeholder="Enter your post title" />
           </Form.Item>
           Content
@@ -87,14 +108,18 @@ export default function ResearchPost({
               }}
             />
           </Form.Item>
-          <Form.Item name="cate_id">
-            <Select>
+          <Form.Item
+            name="cate_id"
+            rules={[{ required: true, message: 'Must select one!' }]}
+          >
+            <select className="main-input" style={{ width: '25%' }}>
+              <option disabled selected value>
+                select an option
+              </option>
               {researchCategory.map((item, index) => (
-                <Select.Option
-                  onClick={() => console.log(item)}
+                <option
                   style={{
-                    backgroundColor: item.color,
-                    color: 'white',
+                    color: item.color,
                     width: '50%',
                     borderRadius: 20,
                   }}
@@ -102,9 +127,9 @@ export default function ResearchPost({
                   key={index}
                 >
                   {item.name}
-                </Select.Option>
+                </option>
               ))}
-            </Select>
+            </select>
           </Form.Item>
           <button
             type="submit"

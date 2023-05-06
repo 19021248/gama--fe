@@ -1,6 +1,5 @@
-import { Avatar, Form, Input, Select } from 'antd';
+import { Select } from 'antd';
 import React from 'react';
-import { UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getItem } from '../../utils';
@@ -12,7 +11,6 @@ import {
   getTopicsSelf,
   getTopicsBookmarked,
   getUser,
-  getAllUserList,
   getAllReply,
   getAllUser,
 } from '../../service/api';
@@ -20,9 +18,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBookmark,
   faComment,
+  faEnvelope,
   faHouseChimney,
   faList,
   faListCheck,
+  faPhone,
   faPlus,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
@@ -30,6 +30,8 @@ import TopicPost from '../../component/forum/topic-post/TopicPost';
 import TopicView from '../../component/forum/topic-view/TopicView';
 import { UserAvatar } from '../../component/avatar/UserAvatar';
 import { topicCategory } from '../../enum';
+import { forum_posts } from './ForumDB';
+import Paginator from '../../component/paginator/Paginator';
 const viewModes = [
   {
     value: 0,
@@ -78,6 +80,9 @@ export default function ForumPage() {
   const [updateComment, setUpdateComment] = useState(false);
   const [filteringCategory, setFilteringCategory] = useState(-1);
   const [editContent, setEditContent] = useState(null);
+  const [bookmarkList, setBookmarkList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const maxCount = 3;
   // 0 view all
   // 1 view approved
   // 2 view not approved
@@ -154,6 +159,9 @@ export default function ForumPage() {
       default:
         break;
     }
+    getTopicsBookmarked(currentUser?.id).then((res) => {
+      setBookmarkList(res.data.map((item) => item.id));
+    });
   }, [viewMode, updateList]);
 
   useEffect(() => {
@@ -194,16 +202,20 @@ export default function ForumPage() {
           )}
         </div>
         <div className="forum-body">
-          <div className="post-create">
-            <input className="post-create-input" placeholder="Title" />
-            <div className="post-button" onClick={() => setShow(true)}>
+          <div className="post-create" onClick={() => setShow(true)}>
+            <input className="post-create-input" placeholder="Title" disabled />
+            <div className="post-button">
               <FontAwesomeIcon icon={faPlus} />
             </div>
           </div>
-          <Select
+          <select
+            className="main-input"
+            style={{
+              width: '20%',
+              alignSelf: 'flex-end',
+            }}
             onChange={(e) => {
-              console.log(e);
-              setFilteringCategory(e);
+              setFilteringCategory(+e.target.value);
             }}
             value={filteringCategory}
           >
@@ -216,10 +228,9 @@ export default function ForumPage() {
               },
               ...topicCategory,
             ].map((item, index) => (
-              <Select.Option
+              <option
                 style={{
-                  backgroundColor: item.color,
-                  color: 'white',
+                  color: item.color,
                   width: '50%',
                   borderRadius: 20,
                 }}
@@ -227,25 +238,44 @@ export default function ForumPage() {
                 key={index}
               >
                 {item.name}
-              </Select.Option>
+              </option>
             ))}
-          </Select>
+          </select>
           {isLoading ? (
             <div>Loading</div>
           ) : filteredPost.length > 0 ? (
-            filteredPost.map((post, index) => (
-              <React.Fragment key={index}>
-                <TopicView
-                  post={post}
-                  user={users}
-                  comment={comments}
-                  showApproval={(viewMode === 0 || viewMode === 2) && isAdmin}
-                  changeList={changeList}
-                  changeComment={changeComment}
-                  setEditContent={setEditContent}
+            <React.Fragment>
+              {filteredPost
+                .filter((_, index) => {
+                  return (
+                    index >= currentPage * maxCount &&
+                    index < (currentPage + 1) * maxCount
+                  );
+                })
+                .map((post, index) => (
+                  <React.Fragment key={index}>
+                    <TopicView
+                      post={post}
+                      user={users}
+                      comment={comments}
+                      showApproval={
+                        (viewMode === 0 || viewMode === 2) && isAdmin
+                      }
+                      changeList={changeList}
+                      changeComment={changeComment}
+                      setEditContent={setEditContent}
+                      bookmarkList={bookmarkList}
+                    />
+                  </React.Fragment>
+                ))}
+              {filteredPost.length > 1 && (
+                <Paginator
+                  length={filteredPost.length / maxCount}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
                 />
-              </React.Fragment>
-            ))
+              )}
+            </React.Fragment>
           ) : (
             <div>No content</div>
           )}
@@ -255,10 +285,29 @@ export default function ForumPage() {
             users.map((user, index) => (
               <div className="forum-sidebar-item" key={index}>
                 <UserAvatar
-                  src={user?.avatar}
+                  src={user?.id}
                   className="forum-sidebar-item-avatar"
                 />
                 <div className="forum-sidebar-item-name">{user?.name}</div>
+                <div className="user-info-card">
+                  <div className="card-ava-name">
+                    <UserAvatar src={user?.id} className="card-avatar" />
+                    {user?.name}
+                  </div>
+                  <div className="field-info">
+                    <span>
+                      <FontAwesomeIcon icon={faEnvelope} /> Email: {user?.email}
+                    </span>
+                  </div>
+                  {user?.phone_number && (
+                    <div className="field-info">
+                      <span>
+                        <FontAwesomeIcon icon={faPhone} />
+                        Phone: {user?.phone_number}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             ))
           ) : (
@@ -266,16 +315,16 @@ export default function ForumPage() {
           )}
         </div>
       </div>
-      {(show || editContent !== null) && (
-        <TopicPost
-          show={show || editContent !== null}
-          setShow={setShow}
-          changeList={changeList}
-          postFreely={postFreely}
-          setEditContent={setEditContent}
-          editContent={editContent}
-        />
-      )}
+      {/*  {(show || editContent !== null) && ( */}
+      <TopicPost
+        show={show || editContent !== null}
+        setShow={setShow}
+        changeList={changeList}
+        postFreely={postFreely}
+        setEditContent={setEditContent}
+        editContent={editContent}
+      />
+      {/*  )} */}
     </React.Fragment>
   );
 }

@@ -1,11 +1,10 @@
 import React from 'react';
-import Header from '../../component/header/Header';
 import './style.scss';
 const resource = [
   {
     title: 'Connectivity',
     description:
-      'Access PhET sims online or offline using a browser, mobile apps, or desktop app',
+      'Access ASF HN sims online or offline using a browser, mobile apps, or desktop app',
     name: 'connectivity',
   },
   {

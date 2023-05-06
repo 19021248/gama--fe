@@ -6,21 +6,7 @@
     border-radius: 20px;
     background-color: #fff;
     padding: 25px 30px;
-    .clickable-icon {
-        svg {
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            &:hover {
-                transform: scale(1.1);
-            }
-        }
-        &.approved {
-            color: #1abf6e;
-        }
-        &.disapproved {
-            color: #f04c49;
-        }
-    }
+
     .approve-button {
         position: absolute;
         top: 20px;

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.scss';
-import {
-  deleteResearch,
-  getAllUser,
-  getResearchAll,
-} from '../../service/api';
+import { deleteResearch, getAllUser, getResearchAll } from '../../service/api';
 import ResearchPost from '../../component/research/topic-post/ResearchPost';
 import Paginator from '../../component/paginator/Paginator';
 import { getItem } from '../../utils';
@@ -53,115 +49,118 @@ export default function ResearchPage() {
       <div className="research-page">
         <div className="page-navigator">
           <input
+            className="main-input dimmed"
             type="text"
             placeholder="Search"
             onChange={(e) => setSearchText(e.target.value)}
           />
-          <select onChange={(e) => setFilteringCategory(+e.target.value)}>
+          <select
+            className="main-input dimmed"
+            onChange={(e) => setFilteringCategory(+e.target.value)}
+          >
             <option value={-1}>All</option>
             {researchCategory.map((item) => (
               <option value={item.id}>{item.name}</option>
             ))}
           </select>
         </div>
-        <div className="research-header">
-          <h1>Research and Development</h1>
-        </div>
-        <div className="research-body">
-          {postFreely && (
-            <div className="publish-research">
-              <button
-                className="main-button"
-                onClick={() => setShowPostModal(true)}
-              >
-                Publish Research
-              </button>
-            </div>
-          )}
-
-          {fileredResearchs
-            .filter((_, index) => index === currentPage)
-            .map((research, index) => (
-              <div className="research-item" key={index}>
-                <div className="approve-button">
-                  {(isAdmin || research.created_by === currentUser?.id) && (
-                    <React.Fragment>
-                      <div
-                        className="clickable-icon"
-                        onClick={() => {
-                          deleteResearch(research.id).finally(() => {
-                            changeList();
-                          });
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </div>
-                      <div
-                        className="clickable-icon"
-                        onClick={() => {
-                          setEditContent(research);
-                          setShowPostModal(true);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faPencil} />
-                      </div>
-                    </React.Fragment>
-                  )}
-                </div>
-                <h2 className="title" key={index}>
-                  {research.name}{' '}
-                </h2>
-                <div className="category">
-                  <span>Category: </span>
-                  <span
-                    style={{
-                      color: researchCategory.find(
-                        (category) => category.id === research.cate_id,
-                      )?.color,
-                    }}
-                  >
-                    {
-                      researchCategory.find(
-                        (category) => category.id === research.cate_id,
-                      )?.name
-                    }
-                  </span>
-                </div>
-                <div
-                  className="content"
-                  dangerouslySetInnerHTML={{ __html: research.content }}
-                ></div>
-                <div className="author">
-                  <span>Author: </span>
-                  <span>
-                    {
-                      users.find((user) => user.id === research.created_by)
-                        ?.name
-                    }
-                  </span>
-                </div>
+        <div class="research-content">
+          <div className="research-header">
+            <h1>Research and Development</h1>
+          </div>
+          <div className="research-body">
+            {postFreely && (
+              <div className="publish-research">
+                <button
+                  className="main-button"
+                  onClick={() => setShowPostModal(true)}
+                >
+                  Publish Research
+                </button>
               </div>
-            ))}
-          {fileredResearchs?.length > 1 && (
-            <Paginator
-              researchs={fileredResearchs}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          )}
+            )}
+            {fileredResearchs
+              .filter((_, index) => index === currentPage)
+              .map((research, index) => (
+                <div className="research-item" key={index}>
+                  <div className="approve-button">
+                    {(isAdmin || research.created_by === currentUser?.id) && (
+                      <React.Fragment>
+                        <div
+                          className="clickable-icon"
+                          onClick={() => {
+                            deleteResearch(research.id).finally(() => {
+                              changeList();
+                            });
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </div>
+                        <div
+                          className="clickable-icon"
+                          onClick={() => {
+                            setEditContent(research);
+                            setShowPostModal(true);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPencil} />
+                        </div>
+                      </React.Fragment>
+                    )}
+                  </div>
+                  <h2 className="title" key={index}>
+                    {research.name}{' '}
+                  </h2>
+                  <div className="category">
+                    <span>Category: </span>
+                    <span
+                      style={{
+                        color: researchCategory.find(
+                          (category) => category.id === research.cate_id,
+                        )?.color,
+                      }}
+                    >
+                      {
+                        researchCategory.find(
+                          (category) => category.id === research.cate_id,
+                        )?.name
+                      }
+                    </span>
+                  </div>
+                  <div
+                    className="content"
+                    dangerouslySetInnerHTML={{ __html: research.content }}
+                  ></div>
+                  <div className="author">
+                    <span>Author: </span>
+                    <span>
+                      {
+                        users.find((user) => user.id === research.created_by)
+                          ?.name
+                      }
+                    </span>
+                  </div>
+                </div>
+              ))}
+            {fileredResearchs?.length > 1 && (
+              <Paginator
+                length={fileredResearchs.length}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          </div>
         </div>
       </div>
 
-      {showPostmodal && (
-        <ResearchPost
-          show={showPostmodal}
-          setShow={setShowPostModal}
-          changeList={changeList}
-          postFreely={true}
-          editContent={editContent}
-          setEditContent={setEditContent}
-        />
-      )}
+      <ResearchPost
+        show={showPostmodal}
+        setShow={setShowPostModal}
+        changeList={changeList}
+        postFreely={true}
+        editContent={editContent}
+        setEditContent={setEditContent}
+      />
     </>
   );
 }

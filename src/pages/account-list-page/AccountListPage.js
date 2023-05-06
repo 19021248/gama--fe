@@ -5,15 +5,18 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getItem } from '../../utils';
 import './style.scss';
-import { getAllUser, getUser, updateUser } from '../../service/api';
+import { deleteUser, getAllUser, getUser, updateUser } from '../../service/api';
 import { UserAvatar } from '../../component/avatar/UserAvatar';
 import { userRole } from '../../enum';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+import addNotification, {
+  NOTIFICATION_TYPE,
+} from '../../component/notification';
 
 export default function AccountListPage() {
   const [userInfo, setUserInfo] = useState();
-  const [userList, setUserList] = useState([]);
+  const [users, setUserList] = useState([]);
 
   useEffect(() => {
     getUser(getItem('user')?.id).then((res) => {
@@ -31,18 +34,20 @@ export default function AccountListPage() {
           <div></div>
           <div>Name</div>
           <div>Email</div>
+          <div>Phone number</div>
           <div>Role</div>
         </div>
-        {userList.map((item, index) => (
+        {users.map((user, index) => (
           <div className="account-item">
-            <UserAvatar size={64} user={item.id} />
-            <div className="account-name">{item.name}</div>
-            <div className="account-email">{item.email}</div>
+            <UserAvatar size={64} src={user?.id} />
+            <div className="account-name">{user?.name}</div>
+            <div className="account-email">{user?.email}</div>
+            <div className="account-email">{user?.phone_number}</div>
             <select
-              defaultValue={item.role ?? 0}
+              defaultValue={user.role ?? 0}
               onChange={(e) => {
-                let newUserList = [...userList];
-                newUserList[index] = { ...item, role: +e.target.value };
+                let newUserList = [...users];
+                newUserList[index] = { ...user, role: +e.target.value };
                 setUserList(newUserList);
               }}
             >
@@ -52,13 +57,45 @@ export default function AccountListPage() {
             </select>
             <div className="account-action">
               <div
+                className="clickable-icon"
                 onClick={() => {
-                  updateUser(item.id, { role: item.role }).then((res) => {
-                    console.log(res);
-                  });
+                  updateUser(user.id, { role: user.role })
+                    .then((res) => {
+                      addNotification(
+                        'Updated account successfully',
+                        NOTIFICATION_TYPE.SUCCESS,
+                      );
+                    })
+                    .catch((err) => {
+                      addNotification(
+                        'Updated account failed',
+                        NOTIFICATION_TYPE.ERROR,
+                      );
+                    });
                 }}
               >
                 <FontAwesomeIcon icon={faSave} />
+              </div>
+              <div
+                className="clickable-icon"
+                onClick={() => {
+                  deleteUser(user.id)
+                    .then((res) => {
+                      setUserList(users.filter((u) => u.id !== user.id));
+                      addNotification(
+                        'Deleted account',
+                        NOTIFICATION_TYPE.SUCCESS,
+                      );
+                    })
+                    .catch((err) => {
+                      addNotification(
+                        'Delete account failed',
+                        NOTIFICATION_TYPE.ERROR,
+                      );
+                    });
+                }}
+              >
+                <FontAwesomeIcon icon={faTrash} />
               </div>
             </div>
           </div>

@@ -7,7 +7,6 @@ import {
   faCircleXmark,
   faPaperPlane,
   faPencil,
-  faPlane,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { UserAvatar } from '../../avatar/UserAvatar';
@@ -15,14 +14,13 @@ import { getItem } from '../../../utils';
 import {
   approveTopic,
   bookmarkTopic,
+  deleteBookmark,
   deleteReply,
   deleteTopic,
   disapproveTopic,
-  getUser,
   replyTopic,
 } from '../../../service/api';
-import { useEffect } from 'react';
-import TopicPost from '../topic-post/TopicPost';
+import addNotification, { NOTIFICATION_TYPE } from '../../notification';
 
 export default function TopicView({
   post,
@@ -31,17 +29,94 @@ export default function TopicView({
   showApproval,
   changeList,
   changeComment,
-  setEditContent
+  setEditContent,
+  bookmarkList,
 }) {
-  const [topicUser, setTopicUser] = useState({});
+  const topicUser = user.find((u) => u.id === post.created_by);
   const [commentContent, setCommentContent] = useState('');
-  useEffect(() => {
-    getUser(post?.created_by).then((res) => {
-      setTopicUser(res.data.user);
-    });
-  }, []);
-
   const currentUser = getItem('user');
+  const approveTopicHandle = (id) => {
+    approveTopic(id)
+      .then((res) => {
+        addNotification('Topic approved', NOTIFICATION_TYPE.SUCCESS);
+      })
+      .catch((err) => {
+        addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+      })
+      .finally(() => {
+        changeList();
+      });
+  };
+  const disapproveTopicHandle = (id) => {
+    disapproveTopic(id)
+      .then((res) => {
+        addNotification('Topic disapproved', NOTIFICATION_TYPE.SUCCESS);
+      })
+      .catch((err) => {
+        addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+      })
+      .finally(() => {
+        changeList();
+      });
+  };
+  const bookmarkTopicHandle = (id, userId) => {
+    bookmarkTopic(id, userId)
+      .then((res) => {
+        addNotification('Topic bookmarked', NOTIFICATION_TYPE.SUCCESS);
+      })
+      .catch((err) => {
+        addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+      })
+      .finally(() => {
+        changeList();
+      });
+  };
+  const deleteBookmarkHandle = (id, userId) => {
+    deleteBookmark(id, userId)
+      .then((res) => {
+        addNotification('Bookmark deleted', NOTIFICATION_TYPE.SUCCESS);
+      })
+      .catch((err) => {
+        addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+      })
+      .finally(() => {
+        changeList();
+      });
+  };
+  const deleteReplyHandle = (id) => {
+    deleteReply(id)
+      .then((res) => {
+        addNotification('Reply deleted', NOTIFICATION_TYPE.SUCCESS);
+      })
+      .catch((err) => {
+        addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+      })
+      .finally(() => {
+        changeComment();
+      });
+  };
+  const deleteTopicHandle = (id) => {
+    deleteTopic(id)
+      .then((res) => {
+        addNotification('Topic deleted', NOTIFICATION_TYPE.SUCCESS);
+      })
+      .catch((err) => {
+        addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+      })
+      .finally(() => {
+        changeList();
+      });
+  };
+  const replyTopicHandle = (id) => {
+    replyTopic({
+      topic_id: id,
+      content: commentContent,
+      created_by: currentUser.id,
+    }).finally(() => {
+      setCommentContent('');
+      changeComment();
+    });
+  };
   return (
     <div className="post-item">
       <div className="approve-button">
@@ -49,30 +124,28 @@ export default function TopicView({
           <>
             <div
               className={`clickable-icon ${post.status === 1 && 'approved'}`}
-              onClick={() => {
-                approveTopic(post.id).finally(() => {
-                  changeList();
-                });
-              }}
+              onClick={() => approveTopicHandle(post.id)}
             >
               <FontAwesomeIcon icon={faCircleCheck} />
             </div>
             <div
               className={`clickable-icon ${post.status === 2 && 'disapproved'}`}
-              onClick={() => {
-                disapproveTopic(post.id).finally(() => {
-                  changeList();
-                });
-              }}
+              onClick={() => disapproveTopicHandle(post.id)}
             >
               <FontAwesomeIcon icon={faCircleXmark} />
             </div>
           </>
         )}
         <div
-          className="clickable-icon"
+          className={`clickable-icon ${
+            bookmarkList.includes(post.id) && 'bookmarked'
+          }`}
           onClick={() => {
-            bookmarkTopic(post.id, currentUser.id);
+            if (bookmarkList.includes(post.id)) {
+              deleteBookmarkHandle(post.id, currentUser.id);
+            } else {
+              bookmarkTopicHandle(post.id, currentUser.id);
+            }
           }}
         >
           <FontAwesomeIcon icon={faBookmark} />
@@ -81,11 +154,7 @@ export default function TopicView({
           <React.Fragment>
             <div
               className="clickable-icon"
-              onClick={() => {
-                deleteTopic(post.id).finally(() => {
-                  changeList();
-                });
-              }}
+              onClick={() => deleteTopicHandle(post.id)}
             >
               <FontAwesomeIcon icon={faTrash} />
             </div>
@@ -103,12 +172,17 @@ export default function TopicView({
 
       <div className="post-item-header">{post.title}</div>
       <div className="post-item-subheader">
-        <UserAvatar className="post-item-avatar" src={topicUser?.gavatar_num} />
+        <UserAvatar className="post-item-avatar" src={topicUser?.id} />
         <div className="post-item-name">
           {topicUser?.name ?? 'Anonymous User'}
         </div>
       </div>
-      <div className="post-item-body">{post.content}</div>
+      <div
+        className="post-item-body"
+        dangerouslySetInnerHTML={{
+          __html: post.content,
+        }}
+      />
 
       <div className="post-item-interact">
         <div class="interact-comment">
@@ -121,16 +195,7 @@ export default function TopicView({
           />
           <div
             className="commentSend"
-            onClick={() => {
-              replyTopic({
-                topic_id: post.id,
-                content: commentContent,
-                created_by: currentUser.id,
-              }).finally(() => {
-                setCommentContent('');
-                changeComment();
-              });
-            }}
+            onClick={() => replyTopicHandle(post.id)}
           >
             <FontAwesomeIcon icon={faPaperPlane} />
           </div>
@@ -151,11 +216,7 @@ export default function TopicView({
                 <React.Fragment>
                   <div
                     className="delete-comment"
-                    onClick={() => {
-                      deleteReply(c.id).finally(() => {
-                        changeComment();
-                      });
-                    }}
+                    onClick={() => deleteReplyHandle(c.id)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </div>

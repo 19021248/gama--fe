@@ -69,7 +69,7 @@ export default function AccountPage() {
             <div className="form-col left">
               Name / Surname
               <Form.Item name="name">
-                <Input className="main-input" placeholder="John Doe" />
+                <input className="main-input dimmed" placeholder="John Doe" />
               </Form.Item>
               Birth day
               <Form.Item
@@ -81,27 +81,27 @@ export default function AccountPage() {
                   },
                 ]}
               >
-                <Input className="main-input" placeholder="1999-01-01" />
+                <input className="main-input dimmed" placeholder="1999-01-01" />
               </Form.Item>
               <div className="gender-ava">
                 <UserAvatar src={userInfo?.id} />
                 Gender
                 <Form.Item name="gender">
-                  <Select>
-                    <Select.Option value="0">Male</Select.Option>
-                    <Select.Option value="1">Female</Select.Option>
-                  </Select>
+                  <select className="main-input">
+                    <option value={0}>Male</option>
+                    <option value={1}>Female</option>
+                  </select>
                 </Form.Item>
               </div>
             </div>
             <div className="form-col right">
               Address
               <Form.Item name="address">
-                <Input className="main-input" placeholder="123 Avenue St." />
+                <input className="main-input dimmed" placeholder="123 Avenue St." />
               </Form.Item>
               Phone number
               <Form.Item name="phone_number">
-                <Input className="main-input" placeholder="098xxxxxx" />
+                <input className="main-input dimmed" placeholder="098xxxxxx" />
               </Form.Item>
               Email
               <Form.Item
@@ -113,10 +113,10 @@ export default function AccountPage() {
                   },
                 ]}
               >
-                <Input className="main-input" placeholder="exmaplle@mail" />
+                <input className="main-input dimmed" placeholder="exmaplle@mail" />
               </Form.Item>
               <Form.Item name="nationality">
-                <Input className="main-input" placeholder="Vietnamese" />
+                <input className="main-input dimmed" placeholder="Vietnamese" />
               </Form.Item>
               <button type="submit" htmlType="submit" className="main-button">
                 Submit

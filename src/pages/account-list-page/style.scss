@@ -12,8 +12,11 @@
         overflow: auto;
         .account-item {
             display: grid;
-            grid-template-columns: 70px 100px 100px 100px;
+            grid-template-columns: 70px 100px 100px 100px 100px;
             position: relative;
+            gap: 2%;
+            align-items: center;
+
             div {
                 text-overflow: ellipsis;
                 overflow: hidden;

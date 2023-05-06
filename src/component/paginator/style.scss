@@ -11,13 +11,9 @@ $secondary-color: #1d1f20;
     }
 }
 
-*,
-*::after,
-*::before {
-    box-sizing: border-box;
-}
+/*  */
 
-body {
+/* body {
     color: #fff;
     background: #949c4e;
     background: linear-gradient(115deg, rgba(86, 216, 228, 1) 10%, rgba(159, 1, 234, 1) 90%);
@@ -25,12 +21,7 @@ body {
         Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-html,
-body {
-    min-height: 100vh;
-}
+} */
 
 .center {
     display: flex;
@@ -39,10 +30,15 @@ body {
 }
 
 .paginator {
+    *,
+    *::after,
+    *::before {
+        box-sizing: border-box;
+    }
     background: lighten($main-color, 5%);
     padding: 1rem;
     margin: 3rem auto;
-    border-radius: 0.2rem;
+    border-radius: 15px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.3);
     counter-reset: pagination;
     text-align: center;

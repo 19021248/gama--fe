@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_HOST,
-  // baseURL: 'https://3095-42-113-171-34.ngrok-free.app',
+  //baseURL: 'https://57ff-2001-ee0-4141-ce71-6d8d-6e52-2f1c-ae6.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -47,7 +47,10 @@ export const getUser = (id) => {
 export const getAllUserList = () => {
   return axiosInstance.get(`/api/user?over_view=1`);
 };
-
+// delete user
+export const deleteUser = (id) => {
+  return axiosInstance.delete(`/api/user/${id}`);
+};
 export const getAllUser = () => {
   return axiosInstance.get(`/api/user`);
 };
@@ -143,7 +146,17 @@ export const bookmarkTopic = (topic_id, created_by) => {
     created_by,
   });
 };
-
+// delete bookmark
+export const deleteBookmark = (topic_id, created_by) => {
+  return axiosInstance.get('api/forum/bookmark').then((res) => {
+    const foundId = res.data.bookmarks.find((bookmark) => {
+      return (
+        bookmark.topic_id === topic_id && bookmark.created_by === created_by
+      );
+    });
+    return axiosInstance.delete(`/api/forum/bookmark/${foundId.id}}`);
+  });
+};
 // topic delete
 export const deleteTopic = (id) => {
   return axiosInstance.delete(`/api/forum/${id}`);

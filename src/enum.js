@@ -45,7 +45,7 @@ export const userRole = [
   },
   {
     id: 2,
-    name: 'Approved Poster',
+    name: 'Contributor',
     description: 'People who countribute nicely',
     color: '#f74d6c',
   },

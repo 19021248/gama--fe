@@ -24,7 +24,7 @@ export default function Dashboard() {
   ) => {
     return (
       <div className="chart-data-create">
-        Tên bảng
+        Chartname
         <input
           className="main-input dimmed"
           defaultValue={title}

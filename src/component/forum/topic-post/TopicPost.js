@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './style.scss';
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { createTopic, editTopic } from '../../../service/api/index';
 import TextArea from 'antd/lib/input/TextArea';
 import { topicCategory } from '../../../enum';
 import { getItem } from '../../../utils';
 import addNotification, { NOTIFICATION_TYPE } from '../../notification';
+import { CKEditor } from 'ckeditor4-react';
+import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
+import { ErrorBoundaries } from '../../ErrorBoundary';
 
 export default function TopicPost({
   show,
@@ -13,38 +16,51 @@ export default function TopicPost({
   changeList,
   postFreely,
   editContent,
-  setEditContent
+  setEditContent,
 }) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
-
+  const [content, setContent] = useState(editContent?.content ?? '');
   const onFinish = (values) => {
     setSubmitting(true);
     if (!editContent) {
       createTopic({
         ...values,
+        content,
         created_by: getItem('user')?.id,
         status: postFreely ? 1 : 0,
-      }).finally(() => {
-        addNotification('Your post have been sent', NOTIFICATION_TYPE.SUCCESS);
-        form.resetFields();
-        setSubmitting(false);
-        setShow(false);
-        changeList();
-      });
+      })
+        .then((res) => {
+          addNotification(
+            'Your post have been posted',
+            NOTIFICATION_TYPE.SUCCESS,
+          );
+        })
+        .catch((err) => {
+          addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
+        })
+        .finally(() => {
+          form.resetFields();
+          setSubmitting(false);
+          setShow(false);
+          changeList();
+        });
     } else {
       editTopic(editContent.id, {
         ...values,
+        content,
       })
-        .then((res) => {})
-        .catch((err) => {
-          //addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
-        })
-        .finally(() => {
+        .then((res) => {
           addNotification(
             'Your post have been edited',
             NOTIFICATION_TYPE.SUCCESS,
           );
+        })
+        .catch((err) => {
+          addNotification('Failed to edit topic', NOTIFICATION_TYPE.ERROR);
+          //addNotification('Error when logging in', NOTIFICATION_TYPE.ERROR);
+        })
+        .finally(() => {
           form.resetFields();
           setSubmitting(false);
           setShow(false);
@@ -82,21 +98,34 @@ export default function TopicPost({
           layout="vertical"
         >
           Title
-          <Form.Item name="title">
+          <Form.Item
+            name="title"
+            rules={[{ required: true, message: 'Can not be empty!' }]}
+          >
             <Input className="main-input" placeholder="Enter your post title" />
           </Form.Item>
           Content
           <Form.Item name="content">
-            <TextArea className="main-input" placeholder="Enter the content" />
+            <CKEditor
+              style={{ width: '100%' }}
+              initData={editContent?.content ?? ''}
+              onChange={(e) => {
+                setContent(e.editor.getData());
+              }}
+            />
           </Form.Item>
-          <Form.Item name="cate_id">
-            <Select>
+          <Form.Item
+            name="cate_id"
+            rules={[{ required: true, message: 'Must select one!' }]}
+          >
+            <select className="main-input" style={{ width: '25%' }}>
+              <option disabled selected value>
+                select an option
+              </option>
               {topicCategory.map((item, index) => (
-                <Select.Option
-                  onClick={() => console.log(item)}
+                <option
                   style={{
-                    backgroundColor: item.color,
-                    color: 'white',
+                    color: item.color,
                     width: '50%',
                     borderRadius: 20,
                   }}
@@ -104,9 +133,9 @@ export default function TopicPost({
                   key={index}
                 >
                   {item.name}
-                </Select.Option>
+                </option>
               ))}
-            </Select>
+            </select>
           </Form.Item>
           <button
             type="submit"
