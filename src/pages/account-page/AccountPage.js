@@ -7,6 +7,7 @@ import { getItem } from '../../utils';
 import './style.scss';
 import { getUser, updateUser } from '../../service/api';
 import { UserAvatar } from '../../component/avatar/UserAvatar';
+import addNotification, { NOTIFICATION_TYPE } from '../../component/notification';
 const profession = [
   {
     name: 'User',
@@ -37,7 +38,7 @@ export default function AccountPage() {
         .replace('T', ' '),
     })
       .then((res) => {
-        setUserInfo(res.data);
+        addNotification('Update success', NOTIFICATION_TYPE.SUCCESS);
       })
       .finally(() => {
         setSubmitting(false);
@@ -118,7 +119,7 @@ export default function AccountPage() {
               <Form.Item name="nationality">
                 <input className="main-input dimmed" placeholder="Vietnamese" />
               </Form.Item>
-              <button type="submit" htmlType="submit" className="main-button">
+              <button type="submit" htmlType="submit" className="main-button" disable={isSubmitting}>
                 Submit
               </button>
             </div>

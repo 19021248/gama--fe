@@ -36,7 +36,7 @@ export default function Dashboard() {
     };
     return (
       <div className="chart-data-create">
-        {typeF()}
+        <h2>{typeF()}</h2>
         <input
           className="main-input dimmed"
           defaultValue={title}

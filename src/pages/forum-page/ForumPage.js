@@ -75,7 +75,7 @@ export default function ForumPage() {
   const [topic, setTopic] = useState([]);
   const [users, setUsers] = useState([]);
   const [comments, setComments] = useState([]);
-  const [viewMode, setViewMode] = useState(0);
+  const [viewMode, setViewMode] = useState(isAdmin ? 0 : 1);
   const [updateList, setUpdateList] = useState(false);
   const [updateComment, setUpdateComment] = useState(false);
   const [filteringCategory, setFilteringCategory] = useState(-1);

@@ -7,6 +7,7 @@ import { getItem } from '../../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { researchCategory } from '../../enum';
+import ResearchView from '../../component/research/research-view/ResearchView';
 export default function ResearchPage() {
   const [loading, setLoading] = React.useState(false);
   const [researchs, setResearchs] = React.useState([]);
@@ -82,65 +83,14 @@ export default function ResearchPage() {
             {fileredResearchs
               .filter((_, index) => index === currentPage)
               .map((research, index) => (
-                <div className="research-item" key={index}>
-                  <div className="approve-button">
-                    {(isAdmin || research.created_by === currentUser?.id) && (
-                      <React.Fragment>
-                        <div
-                          className="clickable-icon"
-                          onClick={() => {
-                            deleteResearch(research.id).finally(() => {
-                              changeList();
-                            });
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                        <div
-                          className="clickable-icon"
-                          onClick={() => {
-                            setEditContent(research);
-                            setShowPostModal(true);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faPencil} />
-                        </div>
-                      </React.Fragment>
-                    )}
-                  </div>
-                  <h2 className="title" key={index}>
-                    {research.name}{' '}
-                  </h2>
-                  <div className="category">
-                    <span>Category: </span>
-                    <span
-                      style={{
-                        color: researchCategory.find(
-                          (category) => category.id === research.cate_id,
-                        )?.color,
-                      }}
-                    >
-                      {
-                        researchCategory.find(
-                          (category) => category.id === research.cate_id,
-                        )?.name
-                      }
-                    </span>
-                  </div>
-                  <div
-                    className="content"
-                    dangerouslySetInnerHTML={{ __html: research.content }}
-                  ></div>
-                  <div className="author">
-                    <span>Author: </span>
-                    <span>
-                      {
-                        users.find((user) => user.id === research.created_by)
-                          ?.name
-                      }
-                    </span>
-                  </div>
-                </div>
+                <ResearchView
+                  research={research}
+                  changeList={changeList}
+                  setShowPostModal={setShowPostModal}
+                  setEditContent={setEditContent}
+                  users={users}
+                  previewMode={0}
+                />
               ))}
             {fileredResearchs?.length > 1 && (
               <Paginator

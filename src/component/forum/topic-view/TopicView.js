@@ -193,6 +193,11 @@ export default function TopicView({
             onChange={(e) => {
               setCommentContent(e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                replyTopicHandle(post.id);
+              }
+            }}
           />
           <div
             className="commentSend"
