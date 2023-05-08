@@ -171,6 +171,7 @@ export default function ForumPage() {
         user.title.toLowerCase().includes(searchText.toLowerCase()) &&
         (user.cate_id === filteringCategory || filteringCategory === -1),
     );
+    setCurrentPage(0);
     setFilteredPost(newForum);
   }, [searchText, topic, filteringCategory]);
 
@@ -273,7 +274,7 @@ export default function ForumPage() {
                     />
                   </React.Fragment>
                 ))}
-              {filteredPost.length > 1 && (
+              {filteredPost.length / maxCount > 1 && (
                 <Paginator
                   length={filteredPost.length / maxCount}
                   currentPage={currentPage}

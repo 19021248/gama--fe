@@ -105,7 +105,6 @@ export default function LandingPage() {
           <p>The most recent published research post</p>
           <div
             className="recent-research"
-            onClick={() => history.push('/research')}
           >
             {researchs
               .filter((_, index) => index < 4)

@@ -5,6 +5,9 @@ import { deleteResearch } from '../../../service/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { researchCategory } from '../../../enum';
+import { useSimulationContext } from '../../simulation-context/SimulationContext';
+import { useHistory } from 'react-router-dom';
+
 // preview mode
 // 0 in research page
 // 1 in news
@@ -22,8 +25,16 @@ const ResearchView = ({
   const researchListMode = previewMode === 0;
   const landingPageMode = previewMode === 1;
   const normalMode = previewMode === 2;
+  const { setSelectedResearch } = useSimulationContext();
+  const history = useHistory();
   return landingPageMode ? (
-    <div className="research-item-landing-page">
+    <div
+      className="research-item-landing-page"
+      onClick={() => {
+        setSelectedResearch(research);
+        history.push('/research');
+      }}
+    >
       <div
         className="div-image"
         style={{

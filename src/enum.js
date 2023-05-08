@@ -78,7 +78,7 @@ export const researchCategory = [
   {
     id: 4,
     name: 'Biology',
-    description: 'Biology',
+    description: 'biology',
     color: '#339c25',
   },
   {

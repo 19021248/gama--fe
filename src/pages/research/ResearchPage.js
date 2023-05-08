@@ -9,6 +9,7 @@ import { researchCategory } from '../../enum';
 import ResearchView from '../../component/research/research-view/ResearchView';
 import PostCount from '../../component/post-count/PostCount';
 import { researchdb } from './mockrb';
+import { useSimulationContext } from '../../component/simulation-context/SimulationContext';
 export default function ResearchPage() {
   const [loading, setLoading] = React.useState(false);
   const [researchs, setResearchs] = React.useState([]);
@@ -24,8 +25,7 @@ export default function ResearchPage() {
   const postFreely = isAdmin || currentUser?.role === 2;
   const [maxCount, setMaxCount] = useState(3);
   const [users, setUsers] = useState([]);
-  const [selectedResearch, setSelectedResearch] = useState(null);
-
+  const { selectedResearch, setSelectedResearch } = useSimulationContext();
   useEffect(() => {
     getAllUser().then((res) => {
       setUsers(res.data.users);

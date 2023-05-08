@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_HOST,
-  // baseURL: 'https://00bb-42-114-170-208.ngrok-free.app',
+  // baseURL: 'https://efa1-42-114-170-208.ngrok-free.app',
   headers: {
     Authorization: 'Bearer ' + localStorage.getItem('token'),
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

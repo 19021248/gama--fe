@@ -11,6 +11,7 @@ export const useSimulationContext = () => useContext(SimulationContext);
 export const SimulationProvider = ({ children }) => {
   const [framerate, setFramerate] = useState();
   const [numberOfSimulation, setNumberOfSimulation] = useState();
+  const [selectedResearch, setSelectedResearch] = useState(null);
   return (
     <SimulationContext.Provider
       value={{
@@ -18,6 +19,8 @@ export const SimulationProvider = ({ children }) => {
         setFramerate,
         numberOfSimulation,
         setNumberOfSimulation,
+        selectedResearch,
+        setSelectedResearch,
       }}
     >
       {children}
