@@ -19,66 +19,94 @@ const ResearchView = ({
 }) => {
   const currentUser = getItem('user');
   const isAdmin = currentUser?.role === 1;
-
-  return (
+  const researchListMode = previewMode === 0;
+  const landingPageMode = previewMode === 1;
+  const normalMode = previewMode === 2;
+  return landingPageMode ? (
+    <div className="research-item-landing-page">
+      <div
+        className="div-image"
+        style={{
+          background: `url('./image/research/${
+            researchCategory.find((item) => item.id === research.cate_id)
+              .description
+          }_banner.jpg') center / cover no-repeat`,
+        }}
+      />
+      <div className="research-title">{research.name}</div>
+    </div>
+  ) : (
     <div
-      className={`research-item ${
-        /* previewMode === 0 ? 'preview-mode' : '' */ ''
-      }
-      
-    }`}
+      className={`research-item ${researchListMode ? 'preview-mode' : ''} }`}
     >
-      <div className="approve-button">
-        {(isAdmin || research.created_by === currentUser?.id) && (
-          <React.Fragment>
-            <div
-              className="clickable-icon"
-              onClick={() => {
-                deleteResearch(research.id).finally(() => {
-                  changeList();
-                });
-              }}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </div>
-            <div
-              className="clickable-icon"
-              onClick={() => {
-                setEditContent(research);
-                setShowPostModal(true);
-              }}
-            >
-              <FontAwesomeIcon icon={faPencil} />
-            </div>
-          </React.Fragment>
-        )}
-      </div>
-      <h2 className="title">{research.name} </h2>
-      <div className="category">
-        <span>Category: </span>
-        <span
+      {normalMode ? (
+        <div
+          className="div-image"
           style={{
-            color: researchCategory.find(
-              (category) => category.id === research.cate_id,
-            )?.color,
+            background: `url('./../image/research/${
+              researchCategory.find((item) => item.id === research.cate_id)
+                .description
+            }_banner.jpg') center / cover no-repeat`,
           }}
         >
-          {
-            researchCategory.find(
-              (category) => category.id === research.cate_id,
-            )?.name
-          }
-        </span>
-      </div>
-      <div
-        className="content"
-        dangerouslySetInnerHTML={{ __html: research.content }}
-      ></div>
-      <div className="author">
-        <span>Author: </span>
-        <span>
-          {users.find((user) => user.id === research.created_by)?.name}
-        </span>
+          <h2>{research.name}</h2>
+        </div>
+      ) : (
+        <div className="title">{research.name}</div>
+      )}
+      <div class="research-body-content">
+        <div className="approve-button">
+          {(isAdmin || research.created_by === currentUser?.id) &&
+            !researchListMode && (
+              <React.Fragment>
+                <div
+                  className="clickable-icon"
+                  onClick={() => {
+                    deleteResearch(research.id).finally(() => {
+                      changeList();
+                    });
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </div>
+                <div
+                  className="clickable-icon"
+                  onClick={() => {
+                    setEditContent(research);
+                    setShowPostModal(true);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                </div>
+              </React.Fragment>
+            )}
+        </div>
+        <div className="category">
+          <span>Category: </span>
+          <span
+            style={{
+              color: researchCategory.find(
+                (category) => category.id === research.cate_id,
+              )?.color,
+            }}
+          >
+            {
+              researchCategory.find(
+                (category) => category.id === research.cate_id,
+              )?.name
+            }
+          </span>
+        </div>
+        <div
+          className="research-content"
+          dangerouslySetInnerHTML={{ __html: research.content }}
+        ></div>
+        <div className="author">
+          <span>Author: </span>
+          <span>
+            {users?.find((user) => user.id === research.created_by)?.name}
+          </span>
+        </div>
       </div>
     </div>
   );

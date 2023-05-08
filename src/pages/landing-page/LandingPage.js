@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
 import { LogIn } from '../../component/auth/log-in.component';
 import { getItem } from '../../utils';
 import { Register } from '../../component/auth/register.component';
+import { getResearchAll } from '../../service/api';
+import ResearchView from '../../component/research/research-view/ResearchView';
 const usedTech = [
   {
     name: 'aws',
@@ -41,10 +43,15 @@ export default function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegistser, setShowRegister] = useState(false);
   const loggedIn = getItem('user');
+  const [researchs, setResearchs] = useState([]);
+  useEffect(() => {
+    getResearchAll().then((res) => {
+      setResearchs(res.data.researchs);
+    });
+  }, []);
   return (
     <React.Fragment>
       <div className="landing-page">
-        
         <div className="content">
           <div className="overlay">
             <h2 id="name">
@@ -94,7 +101,21 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="text-content">
-          <div className="ld-title">Các công nghệ sử dụng</div>
+          <div className="ld-title">Recent research paper</div>
+          <p>The most recent published research post</p>
+          <div
+            className="recent-research"
+            onClick={() => history.push('/research')}
+          >
+            {researchs
+              .filter((_, index) => index < 4)
+              .map((item) => (
+                <ResearchView research={item} previewMode={1} />
+              ))}
+          </div>
+        </div>
+        <div className="text-content">
+          <div className="ld-title">Used technology</div>
           <div className="technology">
             {usedTech.map((item) => (
               <div className="tech-item">

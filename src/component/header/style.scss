@@ -29,6 +29,10 @@
   .menu-bar {
     display: flex;
     gap: 20px;
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+    }
     .menu-item {
       position: relative;
       cursor: pointer;
@@ -43,7 +47,7 @@
           box-shadow: 0.5px 1px 5px 1px #e5bdf693;
         }
       }
-/*       &.active {
+      /*       &.active {
         color: #1890ff;
         text-decoration: underline;
       } */

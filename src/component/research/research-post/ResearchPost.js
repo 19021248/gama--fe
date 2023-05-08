@@ -19,6 +19,7 @@ export default function ResearchPost({
 }) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [content, setContent] = useState(editContent?.content ?? '');
+  const [form] = Form.useForm();
 
   const onFinish = (values) => {
     setSubmitting(true);
@@ -29,18 +30,19 @@ export default function ResearchPost({
         content: content,
       })
         .then((res) => {
+          form.resetFields();
           addNotification(
             'Research have been published',
             NOTIFICATION_TYPE.SUCCESS,
           );
+          setShow(false);
+          changeList();
         })
         .catch((err) => {
           addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
         })
         .finally(() => {
           setSubmitting(false);
-          setShow(false);
-          changeList();
         });
     } else {
       editResearch(editContent.id, {
@@ -48,6 +50,8 @@ export default function ResearchPost({
         content: content,
       })
         .then((res) => {
+          setShow(false);
+          changeList();
           addNotification(
             'Selected research have been edited',
             NOTIFICATION_TYPE.SUCCESS,
@@ -58,14 +62,18 @@ export default function ResearchPost({
         })
         .finally(() => {
           setSubmitting(false);
-          setShow(false);
-          changeList();
         });
     }
   };
-
+  useEffect(() => {
+    console.log(editContent);
+  }, [editContent]);
   return (
-    <div className={`${!show && 'hidden'} research-post-modal`}>
+    <div
+      className={`${!show && 'hidden'} research-post-modal ${
+        editContent && 'yes'
+      }`}
+    >
       <div
         className="bg"
         onClick={() => {
@@ -75,6 +83,7 @@ export default function ResearchPost({
       ></div>
       <div className="post-body">
         <Form
+          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}

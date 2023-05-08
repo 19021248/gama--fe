@@ -1,6 +1,8 @@
 import React from 'react';
 import './style.scss';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { UserAvatar } from '../avatar/UserAvatar';
+import { getItem } from '../../utils';
 
 const menuItem = [
   {
@@ -56,7 +58,9 @@ const Header = () => {
   const history = useHistory();
   // trigger use effect wehn page url changed
   const [url, setUrl] = React.useState(window.location.href);
+  const [user, setUser] = React.useState();
   React.useEffect(() => {
+    setUser(getItem('user'));
     setUrl(window.location.href);
   }, [history]);
   return (
@@ -71,9 +75,10 @@ const Header = () => {
           }}
         />
         <div className="menu-bar">
-          {menuItem.map((item) =>
+          {menuItem.map((item, index) =>
             item?.child ? (
               <div
+              key={index}
                 className={`menu-item ${url.includes(item.url) && 'active'}`}
               >
                 {item.name}
@@ -92,6 +97,7 @@ const Header = () => {
               </div>
             ) : (
               <div
+              key={index}
                 className={`menu-item ${url.includes(item.url) && 'active'}`}
                 onClick={() => {
                   history.push(`/${item.url}`);
@@ -101,6 +107,7 @@ const Header = () => {
               </div>
             ),
           )}
+          <UserAvatar src={user?.id} />
         </div>
       </div>
       <div className="common-header-filter"></div>

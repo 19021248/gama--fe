@@ -32,6 +32,7 @@ import { UserAvatar } from '../../component/avatar/UserAvatar';
 import { topicCategory } from '../../enum';
 import { forum_posts } from './ForumDB';
 import Paginator from '../../component/paginator/Paginator';
+import PostCount from '../../component/post-count/PostCount';
 const viewModes = [
   {
     value: 0,
@@ -82,7 +83,7 @@ export default function ForumPage() {
   const [editContent, setEditContent] = useState(null);
   const [bookmarkList, setBookmarkList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const maxCount = 3;
+  const [maxCount, setMaxCount] = useState(3);
   // 0 view all
   // 1 view approved
   // 2 view not approved
@@ -208,39 +209,42 @@ export default function ForumPage() {
               <FontAwesomeIcon icon={faPlus} />
             </div>
           </div>
-          <select
-            className="main-input"
-            style={{
-              width: '20%',
-              alignSelf: 'flex-end',
-            }}
-            onChange={(e) => {
-              setFilteringCategory(+e.target.value);
-            }}
-            value={filteringCategory}
-          >
-            {[
-              {
-                id: -1,
-                name: 'All',
-                color: '#000000',
-                descriptiion: 'All topic',
-              },
-              ...topicCategory,
-            ].map((item, index) => (
-              <option
-                style={{
-                  color: item.color,
-                  width: '50%',
-                  borderRadius: 20,
-                }}
-                value={item.id}
-                key={index}
-              >
-                {item.name}
-              </option>
-            ))}
-          </select>
+          <div class="forum-tool">
+            <PostCount count={maxCount} setCount={setMaxCount} />
+            <select
+              className="main-input"
+              style={{
+                width: '20%',
+                alignSelf: 'flex-end',
+              }}
+              onChange={(e) => {
+                setFilteringCategory(+e.target.value);
+              }}
+              value={filteringCategory}
+            >
+              {[
+                {
+                  id: -1,
+                  name: 'All',
+                  color: '#000000',
+                  descriptiion: 'All topic',
+                },
+                ...topicCategory,
+              ].map((item, index) => (
+                <option
+                  style={{
+                    color: item.color,
+                    width: '50%',
+                    borderRadius: 20,
+                  }}
+                  value={item.id}
+                  key={index}
+                >
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
           {isLoading ? (
             <div>Loading</div>
           ) : filteredPost.length > 0 ? (

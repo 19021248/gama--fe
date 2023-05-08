@@ -7,7 +7,9 @@ import { getItem } from '../../utils';
 import './style.scss';
 import { getUser, updateUser } from '../../service/api';
 import { UserAvatar } from '../../component/avatar/UserAvatar';
-import addNotification, { NOTIFICATION_TYPE } from '../../component/notification';
+import addNotification, {
+  NOTIFICATION_TYPE,
+} from '../../component/notification';
 const profession = [
   {
     name: 'User',
@@ -23,9 +25,13 @@ export default function AccountPage() {
   const [isSubmitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    getUser(getItem('user')?.id).then((res) => {
-      setUserInfo(res.data.user);
-    });
+    getUser(getItem('user')?.id)
+      .then((res) => {
+        setUserInfo(res.data.user);
+      })
+      .catch((err) => {
+        addNotification('Can not get user info', NOTIFICATION_TYPE.ERROR);
+      });
   }, []);
 
   const onFinish = (values) => {
@@ -98,7 +104,10 @@ export default function AccountPage() {
             <div className="form-col right">
               Address
               <Form.Item name="address">
-                <input className="main-input dimmed" placeholder="123 Avenue St." />
+                <input
+                  className="main-input dimmed"
+                  placeholder="123 Avenue St."
+                />
               </Form.Item>
               Phone number
               <Form.Item name="phone_number">
@@ -114,12 +123,20 @@ export default function AccountPage() {
                   },
                 ]}
               >
-                <input className="main-input dimmed" placeholder="exmaplle@mail" />
+                <input
+                  className="main-input dimmed"
+                  placeholder="exmaplle@mail"
+                />
               </Form.Item>
               <Form.Item name="nationality">
                 <input className="main-input dimmed" placeholder="Vietnamese" />
               </Form.Item>
-              <button type="submit" htmlType="submit" className="main-button" disable={isSubmitting}>
+              <button
+                type="submit"
+                htmlType="submit"
+                className="main-button"
+                disable={isSubmitting}
+              >
                 Submit
               </button>
             </div>

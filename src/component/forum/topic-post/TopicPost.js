@@ -35,15 +35,15 @@ export default function TopicPost({
             'Your post have been posted',
             NOTIFICATION_TYPE.SUCCESS,
           );
+          form.resetFields();
+          setShow(false);
+          changeList();
         })
         .catch((err) => {
           addNotification('Something went wrong', NOTIFICATION_TYPE.ERROR);
         })
         .finally(() => {
-          form.resetFields();
           setSubmitting(false);
-          setShow(false);
-          changeList();
         });
     } else {
       editTopic(editContent.id, {
