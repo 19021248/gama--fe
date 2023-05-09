@@ -15,16 +15,21 @@ export default function SimulationHelpPage({ setChoose }) {
           <div
             className='list-instruct'
           >
-            <span>Number of simulations: Số lần bạn muốn chạy mô phỏng</span>
-            <span>Stop condition: sẽ được update vào bản sau</span>
+            <span>Number of simulations: The number of simulation you want to run</span>
+            <span>Stop condition: Available in the next version</span>
             <span>
-              Experiment name: Bạn có thể tự đặt tên cho dự án mô phỏng của bạn
+              Experiment name: Define your experiment name
             </span>
-            <span>Framerate: Bước nhảy mà bạn muốn cho mỗi lần mô phỏng</span>
+            <span>Framerate: Framerate of your simulation </span>
             <span>
-              Outputs: nơi bạn có thể tự customize số biểu đồ hiển thị
+              Outputs: Customize your display output 
             </span>
-            <span>Lưu ý: Step = Number of simulations / Frame rate</span>
+            <span>Width: Customize your image width</span>
+            <span>Height: Customize your image height</span>
+
+            <span>Note: Step = Number of simulations / Framerate</span>
+            
+
           </div>
           <div style={{ fontWeight: 'bold' }}>
             Here is a short vid introduce the procedure of simulation
@@ -102,6 +107,14 @@ export default function SimulationHelpPage({ setChoose }) {
             >
               <Input type="number" placeholder="Enter number" step={1} />
             </Form.Item>
+            <div style={{ display: 'flex', gap: '20px' }}>
+          <Form.Item label="Width" name="width">
+            <Input type="number" placeholder="Enter number" />
+          </Form.Item>
+          <Form.Item label="Height" name="height">
+            <Input type="number" placeholder="Enter number" />
+          </Form.Item>
+        </div>
             <Descriptions title="Parameters" />
             <div
               className="param-section"

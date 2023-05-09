@@ -51,7 +51,7 @@ export default function ResearchPage() {
   }, [searchText, filteringCategory, researchs]);
   const changeList = () => setRefreshResearch(!refreshResearch);
   useEffect(() => {
-    if (selectedResearch) {
+    if (selectedResearch && editContent) {
       setSelectedResearch(null);
     }
   }, [editContent]);

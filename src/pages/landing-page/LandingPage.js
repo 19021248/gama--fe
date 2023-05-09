@@ -77,9 +77,9 @@ export default function LandingPage() {
           <div className="descript-overlay">
             <h1 className="ld-title">WEBSITE FOR SIMULATING</h1>
             <h2 id="webContent">
-              Sản phẩm từ dự án mô phỏng đa tác tử được phát triển bởi Mr Trường
-              and Dr Phạm Linh từ những năm 2020 trải qua 3 năm nghiên cứu và
-              phát triển đã cho ra thành quả như giờ.
+               Product from the multi-agent simulation project developed by M.S Truong
+               and Dr Pham Manh Linh from the 2020s spent 3 years researching and
+               development has achived results as now.
             </h2>
           </div>
         </div>
@@ -90,13 +90,14 @@ export default function LandingPage() {
           <div className="descript-overlay">
             <h1 className="ld-title">Multi-Agent Based System</h1>
             <h2 id="webContent">
-              Mô phỏng đa tác tử ngày nay, hệ thống đa tác tử hay còn gọi là mô
-              phỏng đa tác tử (Multi-Agent Based System) [Drogoul & Gaudou,
-              2012] được sử dụng rộng rãi trong nhiều lĩnh vực khác nhau và nó
-              dần thay thế cho các kỹ thuật mô phỏng vi mô, mô phỏng dựa trên
-              hướng đối tượng hay dựa trên từng cá thể đã sử dụng trước đây.
-              GIúp chúng ta có cái nhìn trực quan hóa hơn về từng cá thể và có
-              thể sử dụng một cách dễ dàng với tất cả người dùng
+  
+               Multi-agent simulation nowadays, the multi-agent system, also known as the
+               Multi-Agent Based System [Drogoul & Gaudou,
+               2012] is widely used in various fields and it
+               gradually replacing micro-simulation techniques, simulation-based
+               object-oriented or instance-based previously used.
+               Help us have a more visual view of each individual and have
+               can be used easily by all users
             </h2>
           </div>
         </div>
@@ -162,8 +163,8 @@ export default function LandingPage() {
             }}
           >
             <span style={{ fontSize: 20 }}>
-              Dữ liệu được trích xuất từ 1 file tổng hợp 1 đàn lợn ở trang trại
-              Le Magneraud (Charente-Maritime, Pháp)
+            The data is extracted from a herd of pigs on the farm
+               Le Magneraud (Charente-Maritime, France)
             </span>
           </ul>
         </div>

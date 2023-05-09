@@ -29,7 +29,7 @@ export default function InitiativeReachPage() {
       <div className="main-frame">
         <div class="banner">
           <div class="banner-title">Reach</div>
-          <div class="banner-subtitle">Mục tiêu</div>
+          <div class="banner-subtitle">Goal</div>
         </div>
         <div class="content">
           <div className="reach-item">

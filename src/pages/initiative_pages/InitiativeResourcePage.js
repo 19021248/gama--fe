@@ -36,7 +36,7 @@ export default function InitiativeResourcePage() {
       <div className="main-frame">
         <div class="banner">
           <div class="banner-title">Resource</div>
-          <div class="banner-subtitle">Nguồn tài nguyên</div>
+          <div class="banner-subtitle">Resource</div>
         </div>
         <div class="content">
           {resource.map((item, index) => (

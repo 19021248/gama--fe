@@ -33,6 +33,7 @@ const ResearchView = ({
       onClick={() => {
         setSelectedResearch(research);
         history.push('/research');
+        document.documentElement.scrollTop = 0;
       }}
     >
       <div
@@ -63,7 +64,7 @@ const ResearchView = ({
           <h2>{research.name}</h2>
         </div>
       ) : (
-        <div className="title">{research.name}</div>
+        <h2 className="title">{research.name}</h2>
       )}
       <div class="research-body-content">
         <div className="approve-button">

@@ -59,7 +59,7 @@ export default function InitiativeEventPage() {
       <div className="main-frame">
         <div class="banner">
           <div class="banner-title">Event</div>
-          <div class="banner-subtitle">Các xự kiện tương lai</div>
+          <div class="banner-subtitle">Future Event</div>
         </div>
         <div class="content">
           {events.map((event) => (
